@@ -1,0 +1,24 @@
+{
+    "name": "rusadrako/model_obj",
+	"version": "0.1.0",
+    "description": "Модели объектов",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Petukhov Leonid",
+            "email": "rusadrako@yandex.ru"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.0"
+    },
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "RusaDrako\\model_obj\\": "src"
+        },
+        "files": [
+            "src/autoload.php"
+        ]
+    }
+}
