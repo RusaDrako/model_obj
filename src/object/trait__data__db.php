@@ -19,9 +19,6 @@ trait trait__data__db {
 			$arr_update = $this->data;
 			$this->obj_data->update($arr_update, "{$this->key_name} = {$this->key}");
 		} else {
-			if (\array_key_exists('CREATED', $this->alias)) {
-				$this->setData('CREATED', date('Y-m-d H:i:s'));
-			}
 			$this->data[$this->key_name] = $this->key = $this->obj_data->insert($this->data);
 		}
 		$this->change = false;
