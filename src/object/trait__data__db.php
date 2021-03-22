@@ -14,7 +14,6 @@ trait trait__data__db {
 	/** Сохраняет элемент */
 	public function save() {
 		if (!$this->change) {	return;}
-
 		if ($this->key) {
 			$arr_update = $this->data;
 			$this->obj_data->update($arr_update, "{$this->key_name} = {$this->key}");
@@ -23,8 +22,6 @@ trait trait__data__db {
 		}
 		$this->change = false;
 	}
-
-
 
 
 
@@ -48,8 +45,6 @@ trait trait__data__db {
 			}
 		}
 	}
-
-
 
 
 

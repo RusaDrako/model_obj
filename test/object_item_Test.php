@@ -103,6 +103,7 @@ class object_item_Test extends TestCase {
 		$this->_test_object->setProp('DATA_2', 'TEST');
 		$this->_test_object->save();
 		$this->assertEquals($this->_test_object->getKey(), 99, 'Проверка изменения key');
+		$this->assertEquals($this->_test_object->ID, 99, 'Проверка изменения key');
 	}
 
 

@@ -33,7 +33,9 @@ trait trait__data {
 			return $this->data_obj[$name];
 		}
 		echo '<pre>';
-		print_r($this->data);
+		print_r($this->alias);
+		print_r($this->data_gen);
+		print_r($this->data_obj);
 		throw new \Exception("Вызов неизвестного свойства объекта: " . \get_called_class() . "->{$name}");
 	}
 
@@ -72,7 +74,7 @@ trait trait__data {
 			return;
 		}
 		echo '<pre>';
-		print_r($this->data);
+		print_r($this->alias);
 		throw new \Exception("Вызов неизвестного свойства объекта: " . \get_called_class() . "->{$name}->{$value}");
 	}
 
