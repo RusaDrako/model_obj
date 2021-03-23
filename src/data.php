@@ -72,6 +72,7 @@ class data {
 
 	/** Возвращает элементы полученные по запросу */
 	public function select(string $sql) {
+		$sql = $this->replace_column($sql);
 		$data = $this->obj_db->select($sql);
 		$obj_list = $this->newObjectList();
 		foreach ($data as $v) {
@@ -96,6 +97,19 @@ class data {
 
 
 
+	/** Обновляет запроса - замена маркеров */
+	protected function replace_column($sql) {
+		$col = $this->control_item->getDBColumnList();
+		if (!$col) {
+			$col = '*';
+		}
+		$sql = \str_replace(':col:', $col, $sql);
+		$sql = \str_replace(':tab:', $this->table_name, $sql);
+		return $sql;
+	}
+
+
+
 
 
 
@@ -106,7 +120,7 @@ class data {
 	/** Возвращает запись по id */
 	public function getByKey(int $id) {
 		if (!$id) { return [];}
-		$sql = "SELECT {$this->control_item->getDBColumnList()} FROM {$this->table_name} WHERE {$this->id_name} = {$id}";
+		$sql = "SELECT :col: FROM :tab: WHERE {$this->id_name} = {$id}";
 		$data = $this->select($sql);
 		$data = $data->first();
 		return $data;
@@ -116,7 +130,7 @@ class data {
 
 	/** Возвращает все записи */
 	public function getAll() {
-		$sql = "SELECT {$this->control_item->getDBColumnList()} FROM {$this->table_name}";
+		$sql = "SELECT :col: FROM :tab:";
 		$data = $this->select($sql);
 		return $data;
 	}
