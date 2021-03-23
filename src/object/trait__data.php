@@ -9,13 +9,14 @@ trait trait__data {
 	use trait__data__set;
 	use trait__data__db;
 
-	protected $key            = null;
-	protected $key_name       = null;
-	protected $data           = [];
-	protected $data_gen       = [];
-	protected $alias          = [];
-	protected $data_obj       = [];
-	protected $change         = false;
+	protected $key             = null;
+	protected $key_name        = null;
+	protected $data            = [];
+	protected $data_gen        = [];
+	protected $alias           = [];
+	protected $data_obj        = [];
+//	protected $change          = false;
+	protected $change_column   = false;
 
 
 
@@ -68,7 +69,7 @@ trait trait__data {
 			# Если данные меняются
 			if ($this->data[$this->alias[$name]] != $value) {
 				# Метка об изменении данных
-				$this->change = true;
+				$this->change_column[$this->alias[$name]] = true;
 			}
 			$this->data[$this->alias[$name]] = $value;
 			return;

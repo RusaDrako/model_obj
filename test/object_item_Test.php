@@ -97,7 +97,7 @@ class object_item_Test extends TestCase {
 		$arr_data['data_2'] = 'TEST'; // ['id' => 99, 'data_1' => 'data 1 - 99', 'data_2' => 'TEST'];
 		$this->_test_data_mock->expects($this->exactly(1))
 			->method('update')
-			->with($this->equalTo($arr_data))
+			->with($this->equalTo(['data_2' => 'TEST']))
 			->willReturn(true);
 
 		$this->_test_object->setProp('DATA_2', 'TEST');
@@ -110,7 +110,7 @@ class object_item_Test extends TestCase {
 
 	/** */
 	public function test_save_new() {
-		$arr_data = ['id' => null, 'data_1' => null, 'data_2' => 'TEST'];
+		$arr_data = [/*'id' => null, 'data_1' => null, */'data_2' => 'TEST'];
 		$this->_test_data_mock->expects($this->exactly(1))
 			->method('insert')
 			->with($this->equalTo($arr_data))
