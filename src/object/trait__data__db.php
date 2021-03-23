@@ -49,5 +49,12 @@ trait trait__data__db {
 
 
 
+	/** Возвращает список столбцов */
+	final public function getDBColumnList() {
+		return \implode(', ', $this->alias);
+	}
+
+
+
 /**/
 }

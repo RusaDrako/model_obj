@@ -7,15 +7,17 @@ namespace RusaDrako\model_obj;
 class data {
 
 	/** Имя таблицы */
-	protected $table_name       = null;
+	protected $table_name            = null;
 	/** Имя ключевого поля */
-	protected $id_name          = null;
+	protected $id_name               = null;
 	/** Объект подключения к БД */
-	protected $obj_db           = null;
+	protected $obj_db                = null;
 	/** Имя класса объекта */
-	protected $class_obj_name   = null;
+	protected $class_obj_name        = null;
 	/** Имя класса объекта списка */
 	protected $class_obj_list_name   = null;
+	/** Контрольный элемент */
+	protected $control_item          = null;
 
 
 
@@ -27,9 +29,8 @@ class data {
 		$this->class_obj_name = $class_obj_name;
 		$this->class_obj_list_name = $class_obj_list_name;
 		$this->data = $this->setting();
+		$this->control_item = $this->newItem();
 	}
-
-
 
 
 
@@ -38,12 +39,8 @@ class data {
 
 
 
-
-
 	/** Дополнительные настройки класса */
 	protected function setting() {}
-
-
 
 
 
@@ -51,8 +48,6 @@ class data {
 	public function newItem() {
 		return $this->newObject([]);
 	}
-
-
 
 
 
@@ -66,16 +61,12 @@ class data {
 
 
 
-
-
 	/** Создаёт объект списка */
 	protected function newObjectList() {
 		$class = $this->class_obj_list_name;
 		$obj = new $class($this);
 		return $obj;
 	}
-
-
 
 
 
@@ -91,14 +82,10 @@ class data {
 
 
 
-
-
 	/** Добавляет запись */
 	public function insert($arr_data) {
 		return $this->obj_db->insert($this->table_name, $arr_data);
 	}
-
-
 
 
 
@@ -110,10 +97,16 @@ class data {
 
 
 
+
+
+
+
+
+
 	/** Возвращает запись по id */
 	public function getByKey(int $id) {
 		if (!$id) { return [];}
-		$sql = "SELECT * FROM {$this->table_name} WHERE {$this->id_name} = {$id}";
+		$sql = "SELECT {$this->control_item->getDBColumnList()} FROM {$this->table_name} WHERE {$this->id_name} = {$id}";
 		$data = $this->select($sql);
 		$data = $data->first();
 		return $data;
@@ -121,11 +114,9 @@ class data {
 
 
 
-
-
 	/** Возвращает все записи */
 	public function getAll() {
-		$sql = "SELECT * FROM {$this->table_name}";
+		$sql = "SELECT {$this->control_item->getDBColumnList()} FROM {$this->table_name}";
 		$data = $this->select($sql);
 		return $data;
 	}

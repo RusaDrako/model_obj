@@ -92,6 +92,13 @@ class object_item_Test extends TestCase {
 
 
 	/** */
+	public function test_getDBColumnList() {
+		$this->assertEquals($this->_test_object->getDBColumnList(), 'id, data_1, data_2', 'Проверка списка столбцов');
+	}
+
+
+
+	/** */
 	public function test_save() {
 		$arr_data = $this->arr_data;
 		$arr_data['data_2'] = 'TEST'; // ['id' => 99, 'data_1' => 'data 1 - 99', 'data_2' => 'TEST'];
