@@ -64,6 +64,13 @@ class object_item_Test extends TestCase {
 
 
 	/** */
+	public function test_getKeyName() {
+		$this->assertEquals($this->_test_object->getKeyName(), 'id', 'Проверка getKeyName()');
+	}
+
+
+
+	/** */
 	public function test_getProp() {
 		$this->assertEquals($this->_test_object->getProp('ID'), 99, 'Проверка ID');
 		$this->assertEquals($this->_test_object->getProp('DATA_1'), 'data 1 - 99', 'Проверка DATA_1');

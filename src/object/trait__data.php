@@ -53,6 +53,15 @@ trait trait__data {
 
 
 
+	/** Возвращает имя ключевого поля */
+	final public function getKeyName() {
+		return $this->key_name;
+	}
+
+
+
+
+
 	/** Возвращает свойство */
 	final public function getProp(string $name) {
 		return $this->$name;

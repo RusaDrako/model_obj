@@ -30,6 +30,7 @@ class data {
 		$this->class_obj_list_name = $class_obj_list_name;
 		$this->data = $this->setting();
 		$this->control_item = $this->newItem();
+		$this->id_name = $this->control_item->getKeyName();
 	}
 
 
