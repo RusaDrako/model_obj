@@ -61,11 +61,7 @@ class test_item extends \RD_Obj_Item {
 
 	/** Заполнение свойств объекта */
 	protected function filter($name, $value) {
-		switch ($name) {
-			case 'ID':
-				$value = (int) $value;
-				break;
-		}
+		$value = parent::filter($name, $value);
 		return $value;
 	}
 
@@ -75,7 +71,6 @@ class test_item extends \RD_Obj_Item {
 
 	/** Сохранение записи */
 	public function save() {
-//		$this->setProp('DATA_2',   'TEST');
 		parent::save();
 	}
 
