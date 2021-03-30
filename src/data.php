@@ -73,7 +73,7 @@ class data {
 
 	/** Возвращает элементы полученные по запросу */
 	public function select(string $sql) {
-		$sql = $this->replace_column($sql);
+		$sql = $this->replace_alias($sql);
 		$data = $this->obj_db->select($sql);
 		$obj_list = $this->newObjectList();
 		foreach ($data as $v) {
@@ -99,11 +99,13 @@ class data {
 
 
 	/** Обновляет запроса - замена маркеров */
-	protected function replace_column($sql) {
+	protected function replace_alias($sql) {
 		$col = $this->control_item->getDBColumnList();
+		$key = $this->control_item->getKeyName();
 		if (!$col) {
 			$col = '*';
 		}
+		$sql = \str_replace(':key:', $key, $sql);
 		$sql = \str_replace(':col:', $col, $sql);
 		$sql = \str_replace(':tab:', $this->table_name, $sql);
 		return $sql;
