@@ -34,6 +34,18 @@ trait trait__data__set {
 
 
 
+	/** Задаёт имя добавочных данных */
+	final protected function set_add_data($name) {
+		if (\array_key_exists($name, $this->data_add)) {
+			throw new \Exception("Дублирование добавочных данных данных: " . \get_called_class() . "->{$name}");
+		}
+		$this->data_add[$name] = null;
+	}
+
+
+
+
+
 	/** Задаёт имя и псевдоним поля */
 	final protected function set_gen_data($name, $func) {
 		if (\array_key_exists($name, $this->data_gen)) {

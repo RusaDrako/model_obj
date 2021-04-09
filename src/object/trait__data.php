@@ -12,6 +12,7 @@ trait trait__data {
 	protected $key             = null;
 	protected $key_name        = null;
 	protected $data            = [];
+	protected $data_add        = [];
 	protected $data_gen        = [];
 	protected $alias           = [];
 	protected $data_obj        = [];
@@ -26,6 +27,9 @@ trait trait__data {
 	final public function __get($name) {
 		if (array_key_exists($name, $this->alias)) {
 			return $this->data[$this->alias[$name]];
+		}
+		if (array_key_exists($name, $this->data_add)) {
+			return $this->data_add[$name];
 		}
 		if (array_key_exists($name, $this->data_gen)) {
 			return $this->data_gen[$name]();
@@ -62,7 +66,7 @@ trait trait__data {
 
 
 
-	/** Возвращает свойство */
+	/** Возвращает свойство * /
 	final public function getProp(string $name) {
 		return $this->$name;
 	}
@@ -81,6 +85,10 @@ trait trait__data {
 				$this->change_column[$this->alias[$name]] = true;
 			}
 			$this->data[$this->alias[$name]] = $value;
+			return;
+		}
+		if (\array_key_exists($name, $this->data_add)) {
+			$this->data_add[$name] = $value;
 			return;
 		}
 		echo '<pre>';

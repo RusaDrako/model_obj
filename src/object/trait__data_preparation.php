@@ -14,6 +14,13 @@ trait trait__data_preparation {
 		foreach ($this->alias as $k => $v) {
 			$arr[$k] = $this->data[$v];
 		}
+		if ($this->data_add) {
+			$_arr = [];
+			foreach ($this->data_add as $k => $v) {
+				$_arr[$k] = $v;
+			}
+			$arr['add_data'] = $_arr;
+		}
 		if ($this->data_gen) {
 			$_arr = [];
 			foreach ($this->data_gen as $k => $v) {
