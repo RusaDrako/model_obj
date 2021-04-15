@@ -125,7 +125,7 @@ class data_Test extends TestCase {
 		$id = 888;
 		$this->_test_db_mock->expects($this->once())
 			->method('select')
-			->with($this->equalTo('SELECT id, data_1, data_2 FROM test_1 WHERE id = 888'))
+			->with($this->equalTo('SELECT test_1.id, test_1.data_1, test_1.data_2 FROM test_1 WHERE id = 888'))
 			->willReturn([['id' => '234']]);
 
 		$result = $this->_test_object->getByKey($id);
@@ -140,7 +140,7 @@ class data_Test extends TestCase {
 	public function test_getAll() {
 		$this->_test_db_mock->expects($this->once())
 			->method('select')
-			->with($this->equalTo('SELECT id, data_1, data_2 FROM test_1'))
+			->with($this->equalTo('SELECT test_1.id, test_1.data_1, test_1.data_2 FROM test_1'))
 			->willReturn([['id' => '234']]);
 
 		$result = $this->_test_object->getAll();

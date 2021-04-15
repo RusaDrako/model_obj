@@ -54,7 +54,7 @@ trait trait__data__db {
 	final public function getDBColumnList() {
 		$col = [];
 		foreach($this->alias as $k => $v) {
-			$col[] = "`:tab:`.`{$v}`";
+			$col[] = ":tab:.{$v}";
 		}
 		return \implode(', ', $col);
 	}

@@ -100,7 +100,7 @@ class object_item_Test extends TestCase {
 
 	/** */
 	public function test_getDBColumnList() {
-		$this->assertEquals($this->_test_object->getDBColumnList(), 'id, data_1, data_2', 'Проверка списка столбцов');
+		$this->assertEquals($this->_test_object->getDBColumnList(), ':tab:.id, :tab:.data_1, :tab:.data_2', 'Проверка списка столбцов');
 	}
 
 
