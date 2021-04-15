@@ -101,7 +101,9 @@ trait trait__data {
 
 
 	/** Фильтр обновления данных */
-	protected function filter($name, $value) {}
+	protected function filter($name, $value) {
+		return $value;
+	}
 
 
 
