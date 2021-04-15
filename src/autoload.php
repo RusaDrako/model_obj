@@ -11,7 +11,7 @@ $arr_load = [
 	'/object/trait__link_obj.php',
 	'/factory.php',
 	'/data.php',
-//	'/intf_data.php',
+	'/data_query.php',
 	'/object_list.php',
 	'/object_item.php',
 ];

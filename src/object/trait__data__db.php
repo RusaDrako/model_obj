@@ -13,15 +13,16 @@ trait trait__data__db {
 
 	/** Сохраняет элемент */
 	public function save() {
-		if (!$this->change_column) {	return;}
+		if (!$this->change_column) {	return null;}
 		$arr_update = $this->data;
 		$arr_update = \array_intersect_key($arr_update, $this->change_column);
 		if ($this->key) {
-			$this->obj_data->update($arr_update, "{$this->key_name} = {$this->key}");
+			$mark = $this->obj_data->update($arr_update, "{$this->key_name} = {$this->key}");
 		} else {
-			$this->data[$this->key_name] = $this->key = $this->obj_data->insert($arr_update);
+			$mark = $this->data[$this->key_name] = $this->key = $this->obj_data->insert($arr_update);
 		}
 		$this->change_column = [];
+		return $mark;
 	}
 
 
