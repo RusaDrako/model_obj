@@ -13,7 +13,7 @@ trait trait__link_obj {
 
 
 	/** Очищает присоединённый объект */
-	final function cleanLinkObj($name) {
+	final public function cleanLinkObj($name) {
 		unset($this->arr_link_obj[$name]);
 	}
 
@@ -21,7 +21,7 @@ trait trait__link_obj {
 
 
 
-	/** дополнительные объекты */
+	/** Возвращает присоединённый объект */
 	final public function getLinkObj($name) {
 		if (\array_key_exists($name, $this->arr_link_obj)) {
 			return $this->arr_link_obj[$name];

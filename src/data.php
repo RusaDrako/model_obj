@@ -71,7 +71,7 @@ class data {
 
 
 
-	/** Возвращает элементы полученные по запросу */
+	/** Возвращает объект со списком объектов записей из запроса */
 	public function select(string $sql) {
 		$sql = $this->replace_column($sql);
 		$data = $this->obj_db->select($sql);

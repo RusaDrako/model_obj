@@ -9,7 +9,8 @@
         }
     ],
     "require": {
-        "php": ">=7.0.0"
+		"php": ">=7.0.0",
+		"rusadrako/driver_db": ">=1.1"
     },
     "minimum-stability": "stable",
     "autoload": {

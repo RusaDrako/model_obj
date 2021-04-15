@@ -44,7 +44,7 @@ trait trait__data {
 
 
 
-	/** Возвращает ID элемента */
+	/** Возвращает ключ элемента */
 	final public function getKey() {
 		return $this->key;
 	}
@@ -62,7 +62,7 @@ trait trait__data {
 
 
 
-	/** Возвращает свойство */
+	/** Возвращает значение свойства */
 	final public function getProp(string $name) {
 		return $this->$name;
 	}
@@ -93,9 +93,7 @@ trait trait__data {
 
 
 	/** Фильтр обновления данных */
-	protected function filter($name, $value) {
-		return $value;
-	}
+	protected function filter($name, $value) {}
 
 
 

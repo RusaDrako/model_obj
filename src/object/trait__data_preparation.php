@@ -8,7 +8,7 @@ trait trait__data_preparation {
 
 
 
-	/** Подготовка данных к var_dump() и серилизации JSON (JsonSerializable)*/
+	/** Подготовка данных к var_dump() и серилизации JSON (JsonSerializable) */
 	protected function __preparationData($arr) {
 		$arr['key'] = $this->key;
 		foreach ($this->alias as $k => $v) {

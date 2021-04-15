@@ -34,7 +34,7 @@ trait trait__data__set {
 
 
 
-	/** Задаёт имя и псевдоним поля */
+	/** Задаёт связанную со свойством функцию */
 	final protected function set_gen_data($name, $func) {
 		if (\array_key_exists($name, $this->data_gen)) {
 			throw new \Exception("Дублирование генератора данных: " . \get_called_class() . "->{$name}");
@@ -46,7 +46,7 @@ trait trait__data__set {
 
 
 
-	/** Задаёт имя и псевдоним поля */
+	/** Задаёт связанный со свойством объект */
 	final protected function set_sub_obj($name, $obj) {
 		if (\array_key_exists($name, $this->data_obj)) {
 			throw new \Exception("Дублирование генератора данных: " . \get_called_class() . "->{$name}");

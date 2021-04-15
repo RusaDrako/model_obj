@@ -55,7 +55,7 @@ class object_list implements \JsonSerializable {
 
 
 
-	/** */
+	/** Добавляет элемент в список */
 	public function add(\RusaDrako\model_obj\object_item $item) {
 		$this->arr_data[] = $item;
 	}
@@ -66,7 +66,7 @@ class object_list implements \JsonSerializable {
 	/** Возвращает указанный элемент
 	 * @param int $num номер элемента
 	 */
-	public function item($num) {
+	public function item(int $num) {
 		if (!isset($this->arr_data[$num])) {return null;}
 		return $this->arr_data[$num];
 	}
