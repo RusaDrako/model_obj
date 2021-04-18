@@ -2,7 +2,7 @@
 namespace RusaDrako\model_obj;
 
 /**
- *
+ * Класс элемента
  */
 class object_item implements \JsonSerializable {
 
@@ -14,7 +14,9 @@ class object_item implements \JsonSerializable {
 
 
 
-	/** */
+	/** Конструктор
+	 * @param object $obj_data Объект получения данныы из БД
+	 */
 	public function __construct(\RusaDrako\model_obj\data $obj_data) {
 		$this->obj_data = $obj_data;
 		$this->setting();

@@ -2,7 +2,7 @@
 namespace RusaDrako\model_obj;
 
 /**
- *
+ * Класс получения данных из БД
  */
 class data {
 

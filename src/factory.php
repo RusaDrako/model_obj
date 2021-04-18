@@ -3,10 +3,11 @@
 namespace RusaDrako\model_obj;
 
 /**
- *
+ * Класс фабрики объектов
  */
-class factory {
+abstract class factory {
 
+	/** Массив созданных объектов */
 	private $obj_class          = [];
 	/** Объект модели */
 	private static $_object		= null;
@@ -16,7 +17,7 @@ class factory {
 
 
 	/** */
-	function __construct() {}
+	public function __construct() {}
 
 
 
@@ -33,14 +34,16 @@ class factory {
 
 
 
-	/** Возвращает класс данных */
-	public function getObj($name) {
-		if (array_key_exists($name, $this->obj_class)) { return $this->obj_class[$name];}
+	/** Возвращает сформированный объект
+	 * @param string $alias Фабричное имя объекта
+	 */
+	public function getObj($alias) {
+		if (array_key_exists($alias, $this->obj_class)) { return $this->obj_class[$alias];}
 
-		$class = $this->selection_object($name);
+		$class = $this->selection_object($alias);
 
-		$this->obj_class[$name] = $class;
-		return $this->obj_class[$name];
+		$this->obj_class[$alias] = $class;
+		return $this->obj_class[$alias];
 	}
 
 
@@ -48,7 +51,8 @@ class factory {
 	/** Производит формирование объекта
 	 * @param String $alias - псевдоним объекта
 	 */
-	protected function selection_object($alias) {}
+	abstract protected function selection_object($alias);
+
 
 
 /**/

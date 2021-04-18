@@ -10,13 +10,16 @@ trait trait__link_obj {
 
 
 
+	/** Очищает присоединённый объект */
 	final public function cleanLinkObj($name) {
 		return $this->clean_link_obj($name);
 	}
 
 
 
-	/** Очищает присоединённый объект */
+	/** Очищает присоединённый объект
+	 * @param string $name Имя объекта
+	 */
 	final public function clean_link_obj($name) {
 		unset($this->arr_link_obj[$name]);
 	}
@@ -29,7 +32,9 @@ trait trait__link_obj {
 
 
 
-	/** Возвращает присоединённый объект */
+	/** Возвращает присоединённый объект
+	 * @param string $name Имя объекта
+	 */
 	final public function get_link_obj($name) {
 		if (\array_key_exists($name, $this->arr_link_obj)) {
 			return $this->arr_link_obj[$name];
@@ -45,7 +50,10 @@ trait trait__link_obj {
 
 
 
-	/** Добавляет объект как элемент */
+	/** Добавляет объект как отдельный элемент
+	 * @param string $name Имя объекта
+	 * @param object $value Объект
+	 */
 	final public function set_link_obj($name, $value) {
 		$this->arr_link_obj[$name] = $value;
 		return $this->arr_link_obj[$name];
@@ -59,7 +67,10 @@ trait trait__link_obj {
 
 
 
-	/** Добавляет объект как элемент массива */
+	/** Добавляет объект как элемент массива
+	 * @param string $name Имя объекта
+	 * @param object $value Объект
+	 */
 	final public function set_link_obj_arr($name, $value) {
 		$this->arr_link_obj[$name][] = $value;
 		return $this->arr_link_obj[$name];

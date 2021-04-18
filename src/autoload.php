@@ -2,7 +2,6 @@
 
 namespace RusaDrako\model_obj;
 
-
 $arr_load = [
 	'/object/trait__data__set.php',
 	'/object/trait__data__db.php',
@@ -16,10 +15,10 @@ $arr_load = [
 	'/object_item.php',
 ];
 
-
 foreach($arr_load as $k => $v) {
 	require_once(__DIR__ . '/' . $v);
 }
+
 
 
 require_once('aliases.php');
