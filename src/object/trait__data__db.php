@@ -27,7 +27,9 @@ trait trait__data__db {
 
 
 
-	/** Присваевает свойства из массива (Данные из БД) */
+	/** Присваевает свойства из массива (Данные из БД)
+	 * @param array $arr_data Массив значений свойств
+	 */
 	final public function setDataArrDB(array $arr_data) {
 		foreach($arr_data as $k => $v) {
 			# Проверка доступности поля

@@ -120,10 +120,6 @@ class object_item_Test extends TestCase {
 			$result = $e->getMessage();
 		}
 		$this->assertEquals($result, 'Свойство заблокировано для изменения: test\test_item->SUB_OBJ', 'Должен выдать ошибку');
-
-
-//		$this->assertEquals($this->_test_object->getProp('DATA_1'), 'new', 'Проверка изменения DATA_1');
-//		$this->assertEquals($this->_test_object->getProp('SUB_FUNC'), ':::new:::', 'Проверка изменения SUB_FUNC');
 	}
 
 

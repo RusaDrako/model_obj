@@ -1,8 +1,6 @@
 <?php
 
-if (class_exists('RD_Obj_Object', false)) {
-    return;
-}
+if (class_exists('RD_Obj_Object', false)) { return; }
 
 $classMap = [
 	'RusaDrako\\model_obj\\factory'       => 'RD_Obj_Factory',
@@ -13,8 +11,5 @@ $classMap = [
 ];
 
 foreach ($classMap as $class => $alias) {
-    class_alias($class, $alias);
+	class_alias($class, $alias);
 }
-
-/*interface RD_Obj_Intf_BD implements RusaDrako\\model_obj\\intf_data {
-}/**/

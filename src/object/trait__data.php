@@ -28,32 +28,28 @@ trait trait__data {
 
 
 
-	/** */
+	/** Магический метод: Возвращает значениесвойства, если оно существует
+	 * @param string $name Имя свойства
+	 */
 	final public function __get($name) {
+		# Базовый свойства
 		if (array_key_exists($name, $this->alias)) {
 			return $this->data[$this->alias[$name]];
 		}
+		# Дополнительные свойства
 		if (array_key_exists($name, $this->data_extended)) {
 			# Если это функция
 			if (\is_callable($this->data_extended[$name])) {
+				# Выполгняем её
 				return $this->data_extended[$name]();
 			} else {
+				# просто возвращаем значение
 				return $this->data_extended[$name];
 			}
 		}
-/*		if (array_key_exists($name, $this->data_add)) {
-			return $this->data_add[$name];
-		}
-		if (array_key_exists($name, $this->data_gen)) {
-			return $this->data_gen[$name]();
-		}
-		if (array_key_exists($name, $this->data_obj)) {
-			return $this->data_obj[$name];
-		}/**/
 		echo '<pre>';
 		print_r($this->alias);
 		print_r($this->$data_extended);
-//		print_r($this->data_obj);
 		throw new \Exception("Вызов неизвестного свойства объекта: " . \get_called_class() . "->{$name}");
 	}
 
@@ -79,7 +75,9 @@ trait trait__data {
 
 
 
-	/** Возвращает значение свойства */
+	/** Возвращает значение свойства
+	 * @param string $name Имя свойства
+	 */
 	final public function getProp(string $name) {
 		return $this->$name;
 	}
@@ -88,7 +86,10 @@ trait trait__data {
 
 
 
-	/** Задаёт свойство */
+	/** Задаёт значение свойства
+	 * @param string $name Имя свойства
+	 * @param mixed $value Значение свойства
+	 */
 	final public function setProp(string $name, $value) {
 		# Если это базовое свойство
 		if (\array_key_exists($name, $this->alias)) {
@@ -121,7 +122,10 @@ trait trait__data {
 
 
 
-	/** Фильтр обновления данных */
+	/** Фильтр обновления данных
+	 * @param string $name Имя свойства
+	 * @param mixed $value Значение свойства
+	 */
 	protected function filter($name, $value) {
 		return $value;
 	}

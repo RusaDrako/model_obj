@@ -2,7 +2,7 @@
 namespace RusaDrako\model_obj;
 
 /**
- *
+ * Класс списка элементов
  */
 class object_list implements \JsonSerializable {
 
@@ -13,12 +13,8 @@ class object_list implements \JsonSerializable {
 
 
 
-
-
 	/** */
 	public function __construct() {}
-
-
 
 
 
@@ -30,8 +26,6 @@ class object_list implements \JsonSerializable {
 
 
 
-
-
 	/** Подготовка данных к серилизации JSON (JsonSerializable) */
 	public function jsonSerialize() {
 		$arr = $this->__preparationData([]);
@@ -40,26 +34,19 @@ class object_list implements \JsonSerializable {
 
 
 
-
-
 	/** Подготовка данных к var_dump() и серилизации JSON (JsonSerializable)*/
 	protected function __preparationData() {
 		return $this->arr_data;
-/*		return [
-			'step' => $this->step,
-			'items' => $this->arr_data,
-		];/**/
 	}
 
 
 
-
-
-	/** Добавляет элемент в список */
+	/** Добавляет элемент в список
+	 * @param object $item Элемент списка
+	 */
 	public function add(\RusaDrako\model_obj\object_item $item) {
 		$this->arr_data[] = $item;
 	}
-
 
 
 
