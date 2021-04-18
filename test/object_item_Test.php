@@ -97,6 +97,9 @@ class object_item_Test extends TestCase {
 		$this->_test_object->setProp('DATA_1', 'new');
 		$this->assertEquals($this->_test_object->getProp('DATA_1'), 'new', 'Проверка изменения DATA_1');
 		$this->assertEquals($this->_test_object->getProp('SUB_FUNC'), ':::new:::', 'Проверка изменения SUB_FUNC');
+
+		$this->_test_object->setProp('SUB_DATA_1', 'new');
+		$this->assertEquals($this->_test_object->SUB_DATA_1, 'new', 'Проверка изменения SUB_DATA_1');
 	}
 
 

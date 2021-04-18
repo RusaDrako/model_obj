@@ -3,7 +3,7 @@ namespace test;
 
 
 /**
- *
+ * Тестовый класс
  */
 class test_item extends \RD_Obj_Item {
 
@@ -37,7 +37,7 @@ class test_item extends \RD_Obj_Item {
 			$this->set_column_name($k, $v);
 		}
 
-		# Генерируемые свойства объекта
+		# Дополнительные свойства объекта (изменяются в процессе работы)
 		$function = [
 			'SUB_DATA_1'   => 'sub_test_data_1',
 		];
@@ -45,7 +45,7 @@ class test_item extends \RD_Obj_Item {
 			$this->set_add_data($k, $v);
 		}/**/
 
-		# Генерируемые свойства объекта
+		# Свойства-функции (в процессе работы не могут быть изменены)
 		$function = [
 			'SUB_FUNC'   => function() {return ':::' . $this->DATA_1 . ':::';},
 		];
@@ -53,7 +53,7 @@ class test_item extends \RD_Obj_Item {
 			$this->set_gen_data($k, $v);
 		}/**/
 
-		# Дополнительные объекты работы с данными
+		# Свойства-объекты (в процессе работы не могут быть изменены)
 		$object = [
 			'SUB_OBJ'        => new sub_class(),/**/
 		];
@@ -90,7 +90,7 @@ class test_item extends \RD_Obj_Item {
 
 
 /**
- *
+ * Дополнительный тестовый класс
  */
 class sub_class {
 	public $PROP_1 = 'test_sub_obj_data_1';
