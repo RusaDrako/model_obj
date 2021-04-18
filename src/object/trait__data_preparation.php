@@ -14,14 +14,21 @@ trait trait__data_preparation {
 		foreach ($this->alias as $k => $v) {
 			$arr[$k] = $this->data[$v];
 		}
-		if ($this->data_add) {
+
+		if ($this->data_extended) {
 			$_arr = [];
-			foreach ($this->data_add as $k => $v) {
-				$_arr[$k] = $v;
+			foreach ($this->data_extended as $k => $v) {
+				$key_add = \array_key_exists($k) ? ' (lock)' : '';
+				# Если это функция
+				if (\is_callable($v[$k])) {
+					$_arr[$k.$key_add] = $v[$k]();
+				} else {
+					$_arr[$k.$key_add] = $v[$k];
+				}
 			}
 			$arr['add_data'] = $_arr;
 		}
-		if ($this->data_gen) {
+/*		if ($this->data_gen) {
 			$_arr = [];
 			foreach ($this->data_gen as $k => $v) {
 				$_arr[$k] = $v();
@@ -34,7 +41,7 @@ trait trait__data_preparation {
 				$_arr[$k] = $v;
 			}
 			$arr['obj_data'] = $_arr;
-		}
+		}*/
 		\ksort($this->arr_link_obj);
 		if ($this->arr_link_obj) {
 			foreach ($this->arr_link_obj as $k => $v) {

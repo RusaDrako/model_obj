@@ -2,7 +2,7 @@
 namespace RusaDrako\model_obj\object;
 
 /**
- * Работа с дополнительными внешними объектами
+ * Работа с дополнительными внешними объектами (не заданными изначально)
  */
 trait trait__link_obj {
 
@@ -10,19 +10,27 @@ trait trait__link_obj {
 
 
 
+	final public function cleanLinkObj($name) {
+		return $this->clean_link_obj($name);
+	}
+
 
 
 	/** Очищает присоединённый объект */
-	final public function cleanLinkObj($name) {
+	final public function clean_link_obj($name) {
 		unset($this->arr_link_obj[$name]);
 	}
 
 
 
+	final public function getLinkObj($name) {
+		return $this->get_link_obj($name);
+	}
+
 
 
 	/** Возвращает присоединённый объект */
-	final public function getLinkObj($name) {
+	final public function get_link_obj($name) {
 		if (\array_key_exists($name, $this->arr_link_obj)) {
 			return $this->arr_link_obj[$name];
 		}
@@ -31,25 +39,31 @@ trait trait__link_obj {
 
 
 
+	final public function setLinkObj($name, $value) {
+		return $this->set_link_obj($name, $value);
+	}
+
 
 
 	/** Добавляет объект как элемент */
-	final public function setLinkObj($name, $value) {
+	final public function set_link_obj($name, $value) {
 		$this->arr_link_obj[$name] = $value;
 		return $this->arr_link_obj[$name];
 	}
 
 
 
-
-
-	/** Добавляет объект как элемент массива */
 	final public function setLinkObjArr($name, $value) {
-		$this->arr_link_obj[$name][] = $value;
-		return $this->arr_link_obj[$name];
+		return $this->set_link_obj_arr($name, $value);
 	}
 
 
+
+	/** Добавляет объект как элемент массива */
+	final public function set_link_obj_arr($name, $value) {
+		$this->arr_link_obj[$name][] = $value;
+		return $this->arr_link_obj[$name];
+	}
 
 
 

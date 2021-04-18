@@ -34,12 +34,24 @@ trait trait__data__set {
 
 
 
-	/** Задаёт имя добавочных данных */
-	final protected function set_add_data($name) {
-		if (\array_key_exists($name, $this->data_add)) {
-			throw new \Exception("Дублирование добавочных данных данных: " . \get_called_class() . "->{$name}");
+	/** Задаёт имя и псевдоним поля */
+	final protected function set_extended($name, $value, $lock = false) {
+		if (\array_key_exists($name, $this->data_extended)) {
+			throw new \Exception("Дублирование дополнительного свойства объекта: " . \get_called_class() . "->{$name}");
 		}
-		$this->data_add[$name] = null;
+		$this->data_extended[$name] = $value;
+		if ($lock) {
+			$this->data_extended_lock[$name] = $lock;
+		}
+	}
+
+
+
+
+
+	/** Задаёт имя добавочных данных */
+	final protected function set_add_data($name, $default = null) {
+		$this->set_extended($name, $default);
 	}
 
 
@@ -48,10 +60,7 @@ trait trait__data__set {
 
 	/** Задаёт имя и псевдоним поля */
 	final protected function set_gen_data($name, $func) {
-		if (\array_key_exists($name, $this->data_gen)) {
-			throw new \Exception("Дублирование генератора данных: " . \get_called_class() . "->{$name}");
-		}
-		$this->data_gen[$name] = $func;
+		$this->set_extended($name, $func, true);
 	}
 
 
@@ -60,10 +69,7 @@ trait trait__data__set {
 
 	/** Задаёт связанный со свойством объект */
 	final protected function set_sub_obj($name, $obj) {
-		if (\array_key_exists($name, $this->data_obj)) {
-			throw new \Exception("Дублирование генератора данных: " . \get_called_class() . "->{$name}");
-		}
-		$this->data_obj[$name] = $obj;
+		$this->set_extended($name, $obj, true);
 	}
 
 

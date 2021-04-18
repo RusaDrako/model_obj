@@ -105,7 +105,7 @@ class data {
 		if (!$col) {
 			$col = '*';
 		}
-		$sql = \str_replace(':key:', $key, $sql);
+		$sql = \str_replace(':key:', ":tab:.{$key}", $sql);
 		$sql = \str_replace(':col:', $col, $sql);
 		$sql = \str_replace(':tab:', $this->table_name, $sql);
 		return $sql;
@@ -123,7 +123,7 @@ class data {
 	/** Возвращает запись по id */
 	public function getByKey(int $id) {
 		if (!$id) { return [];}
-		$sql = "SELECT :col: FROM :tab: WHERE {$this->id_name} = {$id}";
+		$sql = "SELECT :col: FROM :tab: WHERE :key: = {$id}";
 		$data = $this->select($sql);
 		$data = $data->first();
 		return $data;

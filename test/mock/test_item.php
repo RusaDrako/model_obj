@@ -39,7 +39,15 @@ class test_item extends \RD_Obj_Item {
 
 		# Генерируемые свойства объекта
 		$function = [
-			'STR_DATA_1'   => function() {return ':::' . $this->DATA_1 . ':::';},
+			'SUB_DATA_1'   => 'sub_test_data_1',
+		];
+		foreach ($function as $k => $v) {
+			$this->set_add_data($k, $v);
+		}/**/
+
+		# Генерируемые свойства объекта
+		$function = [
+			'SUB_FUNC'   => function() {return ':::' . $this->DATA_1 . ':::';},
 		];
 		foreach ($function as $k => $v) {
 			$this->set_gen_data($k, $v);
@@ -47,8 +55,7 @@ class test_item extends \RD_Obj_Item {
 
 		# Дополнительные объекты работы с данными
 		$object = [
-/*			'LIST_TEST_2'        => \factory::call()->getObj('test_2'),/**/
-/*			'OBJ_ADDRESS'        => new \object\_common\contact\address(),/**/
+			'SUB_OBJ'        => new sub_class(),/**/
 		];
 		foreach ($object as $k => $v) {
 			$this->set_sub_obj($k, $v);
@@ -77,4 +84,15 @@ class test_item extends \RD_Obj_Item {
 
 
 /**/
+}
+
+
+
+
+/**
+ *
+ */
+class sub_class {
+	public $PROP_1 = 'test_sub_obj_data_1';
+	public function method_1($a) { return $a;}
 }

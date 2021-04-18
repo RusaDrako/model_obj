@@ -46,50 +46,44 @@ class object_item_Test extends TestCase {
 
 
 
-	/** */
-	public function test_control_data() {
-		$this->assertEquals($this->_test_object->ID, 99, 'Проверка ID');
-		$this->assertEquals($this->_test_object->DATA_1, 'data 1 - 99', 'Проверка DATA_1');
-		$this->assertEquals($this->_test_object->DATA_2, 'data 2 - 99', 'Проверка DATA_2');
-		$this->assertEquals($this->_test_object->STR_DATA_1, ':::data 1 - 99:::', 'Проверка STR_DATA_2');
-	}
-
-
-
-	/** */
+	/** Проверяет получение знвчения ключевого столбца */
 	public function test_getKey() {
 		$this->assertEquals($this->_test_object->getKey(), 99, 'Проверка getKey()');
 	}
 
 
 
-	/** */
+	/** Проверяет получение имени ключевого столбца */
 	public function test_getKeyName() {
 		$this->assertEquals($this->_test_object->getKeyName(), 'id', 'Проверка getKeyName()');
 	}
 
 
 
-	/** */
-	public function test_getProp() {
-		$this->assertEquals($this->_test_object->getProp('ID'), 99, 'Проверка ID');
-		$this->assertEquals($this->_test_object->getProp('DATA_1'), 'data 1 - 99', 'Проверка DATA_1');
-		$this->assertEquals($this->_test_object->getProp('DATA_2'), 'data 2 - 99', 'Проверка DATA_2');
-		$this->assertEquals($this->_test_object->getProp('STR_DATA_1'), ':::data 1 - 99:::', 'Проверка STR_DATA_1');
+	/** Проверяет получение свойств объекта (напрямую и через getProp)*/
+	public function testt_control_data() {
+		$this->assertEquals($this->_test_object->getProp('ID'), 99, 'Проверка getProp(ID)');
+		$this->assertEquals($this->_test_object->ID, 99, 'Проверка ID');
+		$this->assertEquals($this->_test_object->getProp('DATA_1'), 'data 1 - 99', 'Проверка getProp(DATA_1)');
+		$this->assertEquals($this->_test_object->DATA_1, 'data 1 - 99', 'Проверка DATA_1');
+		$this->assertEquals($this->_test_object->getProp('DATA_2'), 'data 2 - 99', 'Проверка getProp(DATA_2)');
+		$this->assertEquals($this->_test_object->DATA_2, 'data 2 - 99', 'Проверка DATA_2');
+
+		$this->assertEquals($this->_test_object->getProp('SUB_DATA_1'), 'sub_test_data_1', 'Проверка getProp(SUB_DATA_1)');
+		$this->assertEquals($this->_test_object->SUB_DATA_1, 'sub_test_data_1', 'Проверка SUB_DATA_1');
+
+		$this->assertEquals($this->_test_object->getProp('SUB_FUNC'), ':::data 1 - 99:::', 'Проверка getProp(SUB_FUNC)');
+		$this->assertEquals($this->_test_object->SUB_FUNC, ':::data 1 - 99:::', 'Проверка SUB_FUNC');
+
+		$this->assertEquals($this->_test_object->getProp('SUB_OBJ')->PROP_1, 'test_sub_obj_data_1', 'Проверка getProp(SUB_OBJ)->PROP_1');
+		$this->assertEquals($this->_test_object->SUB_OBJ->PROP_1, 'test_sub_obj_data_1', 'Проверка SUB_OBJ->PROP_1');
+		$this->assertEquals($this->_test_object->getProp('SUB_OBJ')->method_1('test_sub_obj_method_1'), 'test_sub_obj_method_1', 'Проверка getProp(SUB_OBJ)->method_1()');
+		$this->assertEquals($this->_test_object->SUB_OBJ->method_1('test_sub_obj_method_1'), 'test_sub_obj_method_1', 'Проверка SUB_OBJ->method_1()');
 	}
 
 
 
-	/** */
-	public function test_setProp() {
-		$this->_test_object->setProp('DATA_1', 'new');
-		$this->assertEquals($this->_test_object->getProp('DATA_1'), 'new', 'Проверка изменения DATA_1');
-		$this->assertEquals($this->_test_object->getProp('STR_DATA_1'), ':::new:::', 'Проверка изменения STR_DATA_1');
-	}
-
-
-
-	/** */
+	/** Проверяет "смену" ключа */
 	public function test_set_key() {
 		$this->_test_object->setProp('ID', '88');
 		$this->assertEquals($this->_test_object->getProp('ID'), 88, 'Проверка изменения ID');
@@ -98,17 +92,50 @@ class object_item_Test extends TestCase {
 
 
 
-	/** */
+	/** Проверяет смену ключа */
+	public function test_setProp() {
+		$this->_test_object->setProp('DATA_1', 'new');
+		$this->assertEquals($this->_test_object->getProp('DATA_1'), 'new', 'Проверка изменения DATA_1');
+		$this->assertEquals($this->_test_object->getProp('SUB_FUNC'), ':::new:::', 'Проверка изменения SUB_FUNC');
+	}
+
+
+
+	/** Проверяет смену ключа */
+	public function test_setProp_exception() {
+		$result = null;
+		try {
+			$this->_test_object->setProp('SUB_FUNC', 'new');
+		} catch (\Exception $e) {
+			$result = $e->getMessage();
+		}
+		$this->assertEquals($result, 'Свойство заблокировано для изменения: test\test_item->SUB_FUNC', 'Должен выдать ошибку');
+		$result = null;
+		try {
+			$this->_test_object->setProp('SUB_OBJ', 'new');
+		} catch (\Exception $e) {
+			$result = $e->getMessage();
+		}
+		$this->assertEquals($result, 'Свойство заблокировано для изменения: test\test_item->SUB_OBJ', 'Должен выдать ошибку');
+
+
+//		$this->assertEquals($this->_test_object->getProp('DATA_1'), 'new', 'Проверка изменения DATA_1');
+//		$this->assertEquals($this->_test_object->getProp('SUB_FUNC'), ':::new:::', 'Проверка изменения SUB_FUNC');
+	}
+
+
+
+	/** Проверяет генерацию столбцов для БД */
 	public function test_getDBColumnList() {
 		$this->assertEquals($this->_test_object->getDBColumnList(), ':tab:.id, :tab:.data_1, :tab:.data_2', 'Проверка списка столбцов');
 	}
 
 
 
-	/** */
+	/** Проверяет сохранение существующего элемента */
 	public function test_save() {
 		$arr_data = $this->arr_data;
-		$arr_data['data_2'] = 'TEST'; // ['id' => 99, 'data_1' => 'data 1 - 99', 'data_2' => 'TEST'];
+		$arr_data['data_2'] = 'TEST';
 		$this->_test_data_mock->expects($this->exactly(1))
 			->method('update')
 			->with($this->equalTo(['data_2' => 'TEST']))
@@ -122,9 +149,9 @@ class object_item_Test extends TestCase {
 
 
 
-	/** */
+	/** Проверяет сохранение нового элемента */
 	public function test_save_new() {
-		$arr_data = [/*'id' => null, 'data_1' => null, */'data_2' => 'TEST'];
+		$arr_data = ['data_2' => 'TEST'];
 		$this->_test_data_mock->expects($this->exactly(1))
 			->method('insert')
 			->with($this->equalTo($arr_data))

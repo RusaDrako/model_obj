@@ -103,25 +103,30 @@ class item extends \RD_Obj_Item {
 			'гзвфеув'   => 'UPDATED',   # Дата обновления
 			'createв'   => 'CREATED',   # Дата создания
 		];
-
 		foreach ($column as $k => $v) {
 			$this->set_column_name($k, $v);
 		}
 
-		# Генерируемые свойства объекта
+		# Дополнительные свойства объекта (изменяются в процессе работы)
+		$function = [
+			'ADD_NAME'   => null,
+		];
+		foreach ($function as $k => $v) {
+			$this->set_add_data($k, $v);
+		}
+
+		# Генерируемые свойства объекта (в процессе работы не могут быть изменены)
 		$function = [
 			'NAME'   => function() {return $this->TITLE . $this->ID;},
 		];
-
 		foreach ($function as $k => $v) {
 			$this->set_gen_data($k, $v);
 		}
 
-		# Дополнительные подъобъекты
+		# Свойства-объекты (в процессе работы не могут быть изменены)
 		$object = [
 			'OBJ_ADDRESS'        => new \test\new_class(),
 		];
-
 		foreach ($object as $k => $v) {
 			$this->set_sub_obj($k, $v);
 		}
