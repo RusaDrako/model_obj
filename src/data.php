@@ -24,7 +24,7 @@ class data {
 
 
 	/** */
-	public function __construct(/*RusaDrako\model_obj\intf_data*/ $db, $class_obj_name, $class_obj_list_name = 'RusaDrako\model_obj\object_list') {
+	public function __construct($db, $class_obj_name, $class_obj_list_name = 'RusaDrako\model_obj\object_list') {
 		$this->obj_db = $db;
 		$this->class_obj_name = $class_obj_name;
 		$this->class_obj_list_name = $class_obj_list_name;
