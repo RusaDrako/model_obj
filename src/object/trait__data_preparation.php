@@ -20,12 +20,12 @@ trait trait__data_preparation {
 		if ($this->data_extended) {
 			$_arr = [];
 			foreach ($this->data_extended as $k => $v) {
-				$key_add = \array_key_exists($k) ? ' (lock)' : '';
+				$key_add = \array_key_exists($k, $this->data_extended_lock) ? ' (lock)' : '';
 				# Если это функция
-				if (\is_callable($v[$k])) {
-					$_arr[$k.$key_add] = $v[$k]();
+				if (\is_callable($v)) {
+					$_arr[$k.$key_add] = $v();
 				} else {
-					$_arr[$k.$key_add] = $v[$k];
+					$_arr[$k.$key_add] = $v;
 				}
 			}
 			$arr['add_data'] = $_arr;
