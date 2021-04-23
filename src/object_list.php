@@ -85,6 +85,13 @@ class object_list implements \JsonSerializable {
 
 
 
+	/** Возвращает массив элементов */
+	public function get_array() {
+		return $this->arr_data;
+	}
+
+
+
 	/** Возвращает следующий элемент */
 	public function next() {
 		$this->step = $this->step + 1;
