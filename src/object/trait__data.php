@@ -9,38 +9,47 @@ trait trait__data {
 	use trait__data__set;
 	use trait__data__db;
 
-	protected $key             = null;
-	protected $key_name        = null;
-	protected $data            = [];
-	protected $data_add        = [];
-	protected $data_gen        = [];
-	protected $alias           = [];
-	protected $data_obj        = [];
-//	protected $change          = false;
-	protected $change_column   = false;
+	# Значение ключевого поля
+	protected $key                  = null;
+	# Имя ключевого поля
+	protected $key_name             = null;
+	# Псевдонимы базовых параметров (связанных с БД)
+	protected $alias                = [];
+	# Базовые параметры (связанных с БД)
+	protected $data                 = [];
+	# Дополнительные параметры
+	protected $data_extended        = [];
+	# Блокировка дополнительных параметров
+	protected $data_extended_lock   = [];
+	#
+	protected $change_data          = false;
 
 
 
 
 
-	/** */
+	/** Магический метод: Возвращает значениесвойства, если оно существует
+	 * @param string $name Имя свойства
+	 */
 	final public function __get($name) {
+		# Базовый свойства
 		if (array_key_exists($name, $this->alias)) {
 			return $this->data[$this->alias[$name]];
 		}
-		if (array_key_exists($name, $this->data_add)) {
-			return $this->data_add[$name];
-		}
-		if (array_key_exists($name, $this->data_gen)) {
-			return $this->data_gen[$name]();
-		}
-		if (array_key_exists($name, $this->data_obj)) {
-			return $this->data_obj[$name];
+		# Дополнительные свойства
+		if (array_key_exists($name, $this->data_extended)) {
+			# Если это функция
+			if (\is_callable($this->data_extended[$name])) {
+				# Выполгняем её
+				return $this->data_extended[$name]();
+			} else {
+				# просто возвращаем значение
+				return $this->data_extended[$name];
+			}
 		}
 		echo '<pre>';
 		print_r($this->alias);
-		print_r($this->data_gen);
-		print_r($this->data_obj);
+		print_r($this->$data_extended);
 		throw new \Exception("Вызов неизвестного свойства объекта: " . \get_called_class() . "->{$name}");
 	}
 
@@ -66,7 +75,9 @@ trait trait__data {
 
 
 
-	/** Возвращает значение свойства */
+	/** Возвращает значение свойства
+	 * @param string $name Имя свойства
+	 */
 	final public function getProp(string $name) {
 		return $this->$name;
 	}
@@ -75,24 +86,35 @@ trait trait__data {
 
 
 
-	/** Задаёт свойство */
+	/** Задаёт значение свойства
+	 * @param string $name Имя свойства
+	 * @param mixed $value Значение свойства
+	 */
 	final public function setProp(string $name, $value) {
+		# Если это базовое свойство
 		if (\array_key_exists($name, $this->alias)) {
+			# Пропускаем через фильтр
 			$value = $this->filter($name, $value);
 			# Если данные меняются
 			if ($this->data[$this->alias[$name]] != $value) {
 				# Метка об изменении данных
-				$this->change_column[$this->alias[$name]] = true;
+				$this->change_data[$this->alias[$name]] = true;
 			}
 			$this->data[$this->alias[$name]] = $value;
 			return;
 		}
-		if (\array_key_exists($name, $this->data_add)) {
-			$this->data_add[$name] = $value;
+		# Если это дополнительное свойство
+		if (\array_key_exists($name, $this->data_extended)) {
+			# Если есть метка о блокировке изменения дополнительного свойства (function, object)
+			if (\array_key_exists($name, $this->data_extended_lock) && $this->data_extended_lock[$name]) {
+				throw new \Exception("Свойство заблокировано для изменения: " . \get_called_class() . "->{$name}");
+			}
+			$this->data_extended[$name] = $value;
 			return;
 		}
 		echo '<pre>';
 		print_r($this->alias);
+		print_r($this->data_extended);
 		throw new \Exception("Вызов неизвестного свойства объекта: " . \get_called_class() . "->{$name}->{$value}");
 	}
 
@@ -100,7 +122,10 @@ trait trait__data {
 
 
 
-	/** Фильтр обновления данных */
+	/** Фильтр обновления данных
+	 * @param string $name Имя свойства
+	 * @param mixed $value Значение свойства
+	 */
 	protected function filter($name, $value) {
 		return $value;
 	}

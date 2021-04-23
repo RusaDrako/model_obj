@@ -183,5 +183,14 @@ class object_list_Test extends TestCase {
 
 
 
+	/** */
+	public function test_get_array() {
+		$result = $this->_test_object->get_array();
+		$this->assertEquals(count($result), $this->_test_object->count(), 'Несовпадение количества элементов');
+		$this->assertEquals($result[0], $this->_test_object->first(), 'Несовпадение количества элементов');
+	}
+
+
+
 /**/
 }

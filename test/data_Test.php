@@ -22,7 +22,7 @@ class data_Test extends TestCase {
 	private $class_name_list_control = 'RusaDrako\\model_obj\\object_list';
 	/** Тестируемый объект */
 	private $_test_object = null;
-	/** Тестируемый объект */
+	/** Объект-заглушка для БД */
 	private $_test_db_mock = null;
 
 
@@ -31,9 +31,6 @@ class data_Test extends TestCase {
 	protected function setUp() : void {
 		$class_name = $this->class_name_data;
 		$this->_test_object = new $class_name($this->mock_db(),  $this->class_name_item);
-//		$arr_data = ['id' => 99, 'data_1' => "data 1 - 99", 'data_2' => "data 2 - 99"];
-//		$this->_test_object->setDataArrDB($arr_data);
-//		print_r($this->_test_object);
 	}
 
 
@@ -49,7 +46,6 @@ class data_Test extends TestCase {
 			->setMethods(['select'])
 			->setMethods(['insert'])
 			->setMethods(['update'])
-//			->enableArgumentCloning()
 			->getMock();
 		// Настроить заглушку.
 		$this->_test_db_mock = $mock;
@@ -58,7 +54,7 @@ class data_Test extends TestCase {
 
 
 
-	/** */
+	/** Проверяет формирования нового элемента */
 	public function test_newItem() {
 		$result = $this->_test_object->newItem();
 		$this->assertIsObject($result, 'Проверка на объект');
@@ -68,14 +64,13 @@ class data_Test extends TestCase {
 
 
 
-	/** */
+	/** Проверяет получение данных из БД */
 	public function test_select() {
 		$sql = '123';
 		$this->_test_db_mock->expects($this->once())
 			->method('select')
 			->with($this->equalTo($sql))
 			->willReturn(
-//				[[], [], [],]
 				[
 					['id' => 1],
 					['id' => 2],
@@ -85,13 +80,14 @@ class data_Test extends TestCase {
 
 		$result = $this->_test_object->select($sql);
 		$this->assertIsObject($result, 'Проверка на объект');
-		$this->assertTrue(\is_a($result, $this->class_name_list_control), 'Класс элемента не найден');
+		$this->assertTrue(\is_a($result, $this->class_name_list_control), 'Класс списка не совпадает');
 		$this->assertEquals($result->count(), 3, 'Кол-во элементов не совпадает');
+		$this->assertTrue(\is_a($result->first(), $this->class_name_item_control), 'Класс элемента списка не совпадает');
 	}
 
 
 
-	/** */
+	/** Проверяет добавление данных в БД */
 	public function test_insert() {
 		$arr_data = ['test_data' => 123];
 		$this->_test_db_mock->expects($this->once())
@@ -105,7 +101,7 @@ class data_Test extends TestCase {
 
 
 
-	/** */
+	/** Проверяет обновление данных в БД */
 	public function test_update() {
 		$arr_data = ['test_data' => 123];
 		$id = 888;
@@ -120,12 +116,12 @@ class data_Test extends TestCase {
 
 
 
-	/** */
+	/** Проверяет получение данных по ключу */
 	public function test_getByKey() {
 		$id = 888;
 		$this->_test_db_mock->expects($this->once())
 			->method('select')
-			->with($this->equalTo('SELECT id, data_1, data_2 FROM test_1 WHERE id = 888'))
+			->with($this->equalTo('SELECT test_1.id, test_1.data_1, test_1.data_2 FROM test_1 WHERE test_1.id = 888'))
 			->willReturn([['id' => '234']]);
 
 		$result = $this->_test_object->getByKey($id);
@@ -136,11 +132,11 @@ class data_Test extends TestCase {
 
 
 
-	/** */
+	/** Проверяет получение всех данных */
 	public function test_getAll() {
 		$this->_test_db_mock->expects($this->once())
 			->method('select')
-			->with($this->equalTo('SELECT id, data_1, data_2 FROM test_1'))
+			->with($this->equalTo('SELECT test_1.id, test_1.data_1, test_1.data_2 FROM test_1'))
 			->willReturn([['id' => '234']]);
 
 		$result = $this->_test_object->getAll();

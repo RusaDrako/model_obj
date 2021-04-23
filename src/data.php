@@ -2,7 +2,7 @@
 namespace RusaDrako\model_obj;
 
 /**
- *
+ * Класс получения данных из БД
  */
 class data {
 
@@ -24,7 +24,7 @@ class data {
 
 
 	/** */
-	public function __construct(/*RusaDrako\model_obj\intf_data*/ $db, $class_obj_name, $class_obj_list_name = 'RusaDrako\model_obj\object_list') {
+	public function __construct($db, $class_obj_name, $class_obj_list_name = 'RusaDrako\model_obj\object_list') {
 		$this->obj_db = $db;
 		$this->class_obj_name = $class_obj_name;
 		$this->class_obj_list_name = $class_obj_list_name;
@@ -105,7 +105,7 @@ class data {
 		if (!$col) {
 			$col = '*';
 		}
-		$sql = \str_replace(':key:', $key, $sql);
+		$sql = \str_replace(':key:', ":tab:.{$key}", $sql);
 		$sql = \str_replace(':col:', $col, $sql);
 		$sql = \str_replace(':tab:', $this->table_name, $sql);
 		return $sql;
@@ -123,7 +123,7 @@ class data {
 	/** Возвращает запись по id */
 	public function getByKey(int $id) {
 		if (!$id) { return [];}
-		$sql = "SELECT :col: FROM :tab: WHERE {$this->id_name} = {$id}";
+		$sql = "SELECT :col: FROM :tab: WHERE :key: = {$id}";
 		$data = $this->select($sql);
 		$data = $data->first();
 		return $data;

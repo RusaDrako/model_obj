@@ -8,8 +8,10 @@ trait trait__data__set {
 
 
 
-	/** Задаёт имя ключевого поля */
-	final protected function set_column_id($name) {
+	/** Задаёт имя ключевого поля
+	 * @param string $name Имя ключевого столбца
+	 */
+	final protected function set_column_id(string $name) {
 		$this->key_name = $name;
 	}
 
@@ -17,8 +19,11 @@ trait trait__data__set {
 
 
 
-	/** Задаёт имя и псевдоним поля */
-	final protected function set_column_name($name, $alias = null) {
+	/** Задаёт имя и псевдоним поля
+	 * @param string $name Имя столбца
+	 * @param string $alias Псевдоним-свойство
+	 */
+	final protected function set_column_name(string $name, string $alias = null) {
 		if (!$alias) {$alias = $name;}
 		if (\array_key_exists($alias, $this->alias)) {
 			throw new \Exception("Дублирование псевдонима: " . \get_called_class() . "->{$alias}");
@@ -34,36 +39,61 @@ trait trait__data__set {
 
 
 
-	/** Задаёт имя добавочных данных */
-	final protected function set_add_data($name) {
-		if (\array_key_exists($name, $this->data_add)) {
-			throw new \Exception("Дублирование добавочных данных данных: " . \get_called_class() . "->{$name}");
+	/** Задаёт имя и значение дополнительного свойства
+	 * @param string $name Имя свойства
+	 * @param mixed $value Значение свойства
+	 * @param string $lock Блокировка свойства
+	 */
+	final protected function set_extended(string $name, $value, bool $lock = false) {
+		if (\array_key_exists($name, $this->data_extended)) {
+			throw new \Exception("Дублирование дополнительного свойства объекта: " . \get_called_class() . "->{$name}");
 		}
-		$this->data_add[$name] = null;
+		$this->data_extended[$name] = $value;
+		if ($lock) {
+			$this->data_extended_lock[$name] = $lock;
+		}
 	}
 
 
 
 
 
-	/** Задаёт имя и псевдоним поля */
-	final protected function set_gen_data($name, $func) {
-		if (\array_key_exists($name, $this->data_gen)) {
-			throw new \Exception("Дублирование генератора данных: " . \get_called_class() . "->{$name}");
-		}
-		$this->data_gen[$name] = $func;
+	/** Задаёт произвольное дополнительное свойство
+	 * @param string $name Имя свойства
+	 * @param mixed $value Значение свойства
+	 */
+	final protected function set_add_data(string $name, $value = null) {
+		$this->set_extended($name, $value);
 	}
 
 
 
 
 
-	/** Задаёт связанный со свойством объект */
-	final protected function set_sub_obj($name, $obj) {
-		if (\array_key_exists($name, $this->data_obj)) {
-			throw new \Exception("Дублирование генератора данных: " . \get_called_class() . "->{$name}");
+	/** Задаёт имя и значение свойства-функции
+	 * @param string $name Имя свойства
+	 * @param callable $func Значение свойства
+	 */
+	final protected function set_gen_data(string $name, $func) {
+		if (!\is_callable($func)) {
+			throw new \Exception("Значение свойства формируемого методом " . __FUNCTION__ . " должно иметь тип callable: " . \get_called_class() . "->{$name}");
 		}
-		$this->data_obj[$name] = $obj;
+		$this->set_extended($name, $func, true);
+	}
+
+
+
+
+
+	/** Задаёт имя и значение свойства-объект
+	 * @param string $name Имя свойства
+	 * @param object $obj Значение свойства
+	 */
+	final protected function set_sub_obj(string $name, $obj) {
+		if (!\is_object($obj)) {
+			throw new \Exception("Значение свойства формируемого методом " . __FUNCTION__ . " должно иметь тип object: " . \get_called_class() . "->{$name}");
+		}
+		$this->set_extended($name, $obj, true);
 	}
 
 
