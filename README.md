@@ -1,4 +1,4 @@
-# RusaDrako\\model_obj
+﻿# RusaDrako\\model_obj
 Модели объектов
 
 ## Подключение
@@ -100,8 +100,8 @@ class item extends \RD_Obj_Item {
 		$column = [
 			'id'        => 'ID',        # ID записи
 			'title'     => 'TITLE',     # Заголовок
-			'гзвфеув'   => 'UPDATED',   # Дата обновления
-			'createв'   => 'CREATED',   # Дата создания
+			'updated'   => 'UPDATED',   # Дата обновления
+			'created'   => 'CREATED',   # Дата создания
 		];
 		foreach ($column as $k => $v) {
 			$this->set_column_name($k, $v);
