@@ -62,6 +62,13 @@ class data {
 
 
 
+	/** Создаёт новый объект списка */
+	public function newList() {
+		return $this->newObjectList();
+	}
+
+
+
 	/** Создаёт объект списка */
 	protected function newObjectList() {
 		$class = $this->class_obj_list_name;
