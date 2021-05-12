@@ -91,6 +91,15 @@ class data {
 
 
 
+	/** Возвращает результат запроса */
+	public function query(string $sql) {
+		$sql = $this->replace_alias($sql);
+		$result = $this->obj_db->query($sql);
+		return $result;
+	}
+
+
+
 	/** Добавляет запись */
 	public function insert($arr_data) {
 		return $this->obj_db->insert($this->table_name, $arr_data);
