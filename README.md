@@ -10,7 +10,8 @@
 | Псевдоним | Полное имя класса |
 | :---: | :--- |
 | RD_Obj_Factory | RusaDrako\\model_obj\\factory |
-| RD_Obj_Data | RusaDrako\\model_obj\\data |
+| RD_Obj_Data | RusaDrako\\model_obj\\data_query |
+| RD_Obj_Data_Core | RusaDrako\\model_obj\\data |
 | RD_Obj_List | RusaDrako\\model_obj\\object_list |
 | RD_Obj_Item | RusaDrako\\model_obj\\object_item |
 
@@ -233,9 +234,4 @@ class list_t extends \RD_Obj_List {
 | first() | public | Возвращает первый элемент |
 | last() | public | Возвращает последний элемент |
 | iterator() | public | Осуществляет перебор элементов |
-| next() | public | Возвращает следующий элемент |
-| back() | public | Возвращает предыдущий элемент |
 | count() | public | Возвращает число элементов |
-| step() | public | Возвращает номер шага |
-| step_first() | public | Устанавливает номер шага на первый элемент |
-| step_last() | public | Устанавливает номер шага на последний элемент |
