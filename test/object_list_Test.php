@@ -23,12 +23,20 @@ class object_list_Test extends TestCase {
 
 	/** Вызывается перед каждым запуском тестового метода */
 	protected function setUp() : void {
-		$this->_test_object = new RD_Obj_List();
-		for($i=0; $i<10; $i++) {
+		$this->_test_object = $this->newList(10);
+	}
+
+
+
+	/** Вызывается перед каждым запуском тестового метода */
+	protected function newList($count) {
+		$obj_list = new RD_Obj_List();
+		for($i=0; $i<$count; $i++) {
 			$j = $i + 1;
 			$obj = $this->stub_item($i);
-			$this->_test_object->add($obj);
+			$obj_list->add($obj);
 		}
+		return $obj_list;
 	}
 
 
@@ -67,47 +75,21 @@ class object_list_Test extends TestCase {
 
 
 
-	/** */
-	public function test_step() {
-		$result = $this->_test_object->step();
-		$this->assertEquals($result, 0, 'Неверный шаг');
-		$this->_test_object->next();
-		$result = $this->_test_object->step();
-		$this->assertEquals($result, 1, 'Неверный шаг');
-		$this->_test_object->next();
-		$result = $this->_test_object->step();
-		$this->assertEquals($result, 2, 'Неверный шаг');
-		$this->_test_object->back();
-		$result = $this->_test_object->step();
-		$this->assertEquals($result, 1, 'Неверный шаг');
-		$this->_test_object->back();
-		$result = $this->_test_object->step();
-		$this->assertEquals($result, 0, 'Неверный шаг');
-		$this->_test_object->back();
-		$result = $this->_test_object->step();
-		$this->assertEquals($result, 9, 'Неверный шаг');
-		$this->_test_object->back();
-		$result = $this->_test_object->step();
-		$this->assertEquals($result, 8, 'Неверный шаг');
-		$this->_test_object->next();
-		$result = $this->_test_object->step();
-		$this->assertEquals($result, 9, 'Неверный шаг');
-		$this->_test_object->next();
-		$result = $this->_test_object->step();
-		$this->assertEquals($result, 0, 'Неверный шаг');
-		$this->_test_object->next();
-		$result = $this->_test_object->step();
-		$this->assertEquals($result, 1, 'Неверный шаг');
-	}
-
-
-
 	/** Контроль первого элемента */
 	public function test_first() {
 		$result = $this->_test_object->first();
 		$this->assertIsObject($result, 'Проверка на объект');
 		$this->assertTrue(\is_a($result, $this->class_name_item_control), 'Класс элемента не найден');
 		$this->assertEquals($result->getKey(), 1, 'Неверный ключ объекта');
+	}
+
+
+
+	/** Контроль первого элемента */
+	public function test_first_null() {
+		$this->_test_object = $this->newList(0);
+		$result = $this->_test_object->first();
+		$this->assertNull($result, 'Проверка на NULL');
 	}
 
 
@@ -122,6 +104,15 @@ class object_list_Test extends TestCase {
 
 
 
+	/** Контроль первого элемента */
+	public function test_last_null() {
+		$this->_test_object = $this->newList(0);
+		$result = $this->_test_object->last();
+		$this->assertNull($result, 'Проверка на NULL');
+	}
+
+
+
 	/** Контроль итератора */
 	public function test_iterator() {
 		$i = 0;
@@ -130,7 +121,6 @@ class object_list_Test extends TestCase {
 			$this->assertIsObject($v, 'Проверка на объект' . " - Итерация № {$i}");
 			$this->assertTrue(\is_a($v, $this->class_name_item_control), 'Класс элемента не найден' . " - Итерация № {$i}");
 			$this->assertEquals($v->getKey(), $i, 'Неверный ключ объекта' . " - Итерация № {$i}");
-			$this->assertEquals($this->_test_object->step(), $i - 1, 'Неверный шаг итерации' . " - Итерация № {$i}");
 		}
 	}
 
@@ -157,37 +147,19 @@ class object_list_Test extends TestCase {
 
 
 	/** */
-	public function test_step_first_last() {
-		$result = $this->_test_object->step();
-		$this->assertEquals($result, 0, 'Неверный шаг');
-		$this->_test_object->next();
-		$this->_test_object->next();
-		$this->_test_object->next();
-		$result = $this->_test_object->step();
-		$this->assertEquals($result, 3, 'Неверный шаг');
-		$this->_test_object->step_first();
-		$result = $this->_test_object->step();
-		$this->assertEquals($result, 0, 'Неверный шаг');
-		$this->_test_object->step_last();
-		$result = $this->_test_object->step();
-		$this->assertEquals($result, 9, 'Неверный шаг');
-		$this->_test_object->back();
-		$this->_test_object->back();
-		$this->_test_object->back();
-		$result = $this->_test_object->step();
-		$this->assertEquals($result, 6, 'Неверный шаг');
-		$this->_test_object->step_last();
-		$result = $this->_test_object->step();
-		$this->assertEquals($result, 9, 'Неверный шаг');
-	}
-
-
-
-	/** */
 	public function test_get_array() {
 		$result = $this->_test_object->get_array();
 		$this->assertEquals(count($result), $this->_test_object->count(), 'Несовпадение количества элементов');
-		$this->assertEquals($result[0], $this->_test_object->first(), 'Несовпадение количества элементов');
+		$this->assertEquals($result[0], $this->_test_object->first(), 'Несовпадение объектов: первый');
+		$this->assertEquals($result[count($result)-1], $this->_test_object->last(), 'Несовпадение объектов: последний');
+		$i = 0;
+		foreach($result as $k => $v) {
+			$i = $i + 1;
+			$this->assertIsObject($v, 'Проверка на объект' . " - Итерация № {$i}");
+			$this->assertTrue(\is_a($v, $this->class_name_item_control), 'Класс элемента не найден' . " - Итерация № {$i}");
+			$this->assertEquals($v->getKey(), $i, 'Неверный ключ объекта' . " - Итерация № {$i}");
+		}
+
 	}
 
 

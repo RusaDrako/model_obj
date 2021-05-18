@@ -8,8 +8,6 @@ class object_list implements \JsonSerializable {
 
 	/* Массив данных */
 	protected $arr_data = [];
-	/* Шаг итерации */
-	protected $step = 0;
 
 
 
@@ -77,8 +75,7 @@ class object_list implements \JsonSerializable {
 
 	/** Осуществляет перебор элементов */
 	public function iterator() {
-		foreach ($this->arr_data as $k => $v) {
-			$this->step = $k;
+		foreach ($this->arr_data as $v) {
 			yield $v;
 		}
 	}
@@ -92,48 +89,9 @@ class object_list implements \JsonSerializable {
 
 
 
-	/** Возвращает следующий элемент */
-	public function next() {
-		$this->step = $this->step + 1;
-		if ($this->count() <= $this->step) { $this->step = 0;};
-		return $this->item($this->step);
-	}
-
-
-
-	/** Возвращает предыдущий элемент */
-	public function back() {
-		$this->step = $this->step - 1;
-		if (0 > $this->step) { $this->step = $this->count() - 1;}
-		return $this->item($this->step);
-	}
-
-
-
 	/** Возвращает число элементов */
 	public function count() {
 		return count($this->arr_data);
-	}
-
-
-
-	/** Возвращает номер шага */
-	public function step() {
-		return $this->step;
-	}
-
-
-
-	/** Устанавливает номер шага на первый элемент */
-	public function step_first() {
-		$this->step = 0;
-	}
-
-
-
-	/** Устанавливает номер шага на последний элемент */
-	public function step_last() {
-		$this->step = $this->count() - 1;
 	}
 
 

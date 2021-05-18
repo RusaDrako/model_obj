@@ -5,7 +5,7 @@ namespace test;
 /**
  *
  */
-class test_data extends \RD_Obj_Data_Core {
+class test_data_query extends \RD_Obj_Data {
 
 
 

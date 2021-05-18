@@ -116,36 +116,5 @@ class data_Test extends TestCase {
 
 
 
-	/** Проверяет получение данных по ключу */
-	public function test_getByKey() {
-		$id = 888;
-		$this->_test_db_mock->expects($this->once())
-			->method('select')
-			->with($this->equalTo('SELECT test_1.id, test_1.data_1, test_1.data_2 FROM test_1 WHERE test_1.id = 888'))
-			->willReturn([['id' => '234']]);
-
-		$result = $this->_test_object->getByKey($id);
-		$this->assertIsObject($result, 'Проверка на объект');
-		$this->assertTrue(\is_a($result, $this->class_name_item_control), 'Класс элемента не найден');
-		$this->assertEquals($result->ID, 234, 'Кол-во элементов не совпадает');
-	}
-
-
-
-	/** Проверяет получение всех данных */
-	public function test_getAll() {
-		$this->_test_db_mock->expects($this->once())
-			->method('select')
-			->with($this->equalTo('SELECT test_1.id, test_1.data_1, test_1.data_2 FROM test_1'))
-			->willReturn([['id' => '234']]);
-
-		$result = $this->_test_object->getAll();
-		$this->assertIsObject($result, 'Проверка на объект');
-		$this->assertTrue(\is_a($result, $this->class_name_list_control), 'Класс элемента не найден');
-		$this->assertEquals($result->count(), 1, 'Кол-во элементов не совпадает');
-	}
-
-
-
 /**/
 }

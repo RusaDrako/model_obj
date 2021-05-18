@@ -8,8 +8,6 @@ class data {
 
 	/** Имя таблицы */
 	protected $table_name            = null;
-	/** Имя ключевого поля */
-	protected $id_name               = null;
 	/** Объект подключения к БД */
 	protected $obj_db                = null;
 	/** Имя класса объекта */
@@ -18,6 +16,10 @@ class data {
 	protected $class_obj_list_name   = null;
 	/** Контрольный элемент */
 	protected $control_item          = null;
+	/** Имя ключевого поля */
+	protected $id_name               = null;
+	/** Список столцов для поиска */
+	protected $column_name_list      = null;
 
 
 
@@ -25,12 +27,13 @@ class data {
 
 	/** */
 	public function __construct($db, $class_obj_name, $class_obj_list_name = 'RusaDrako\model_obj\object_list') {
-		$this->obj_db = $db;
-		$this->class_obj_name = $class_obj_name;
-		$this->class_obj_list_name = $class_obj_list_name;
-		$this->data = $this->setting();
-		$this->control_item = $this->newItem();
-		$this->id_name = $this->control_item->getKeyName();
+		$this->obj_db                = $db;
+		$this->class_obj_name        = $class_obj_name;
+		$this->class_obj_list_name   = $class_obj_list_name;
+		$this->data                  = $this->setting();
+		$this->control_item          = $this->newItem();
+		$this->id_name               = $this->control_item->getKeyName();
+		$this->column_name_list      = $this->control_item->getDBColumnList();
 	}
 
 
@@ -46,14 +49,7 @@ class data {
 
 
 	/** Создаёт новый объект */
-	public function newItem() {
-		return $this->newObject([]);
-	}
-
-
-
-	/** Создаёт объект */
-	protected function newObject($arr_data) {
+	public function newItem($arr_data = []) {
 		$class = $this->class_obj_name;
 		$obj = new $class($this);
 		$obj->setDataArrDB($arr_data);
@@ -62,15 +58,8 @@ class data {
 
 
 
-	/** Создаёт новый объект списка */
-	public function newList() {
-		return $this->newObjectList();
-	}
-
-
-
 	/** Создаёт объект списка */
-	protected function newObjectList() {
+	public function newList() {
 		$class = $this->class_obj_list_name;
 		$obj = new $class($this);
 		return $obj;
@@ -82,9 +71,9 @@ class data {
 	public function select(string $sql) {
 		$sql = $this->replace_alias($sql);
 		$data = $this->obj_db->select($sql);
-		$obj_list = $this->newObjectList();
+		$obj_list = $this->newList();
 		foreach ($data as $v) {
-			$obj_list->add($this->newObject($v));
+			$obj_list->add($this->newItem($v));
 		}
 		return $obj_list;
 	}
@@ -116,45 +105,13 @@ class data {
 
 	/** Обновляет запроса - замена маркеров */
 	protected function replace_alias($sql) {
-		$col = $this->control_item->getDBColumnList();
-		$key = $this->control_item->getKeyName();
-		if (!$col) {
-			$col = '*';
-		}
-		$sql = \str_replace(':key:', ":tab:.{$key}", $sql);
-		$sql = \str_replace(':col:', $col, $sql);
-		$sql = \str_replace(':tab:', $this->table_name, $sql);
+		$col = $this->column_name_list;
+		$key = $this->id_name;
+		$sql = \str_replace(':key:',   ":tab:.{$key}",      $sql);
+		$sql = \str_replace(':col:',   $col,                $sql);
+		$sql = \str_replace(':tab:',   $this->table_name,   $sql);
 		return $sql;
 	}
-
-
-
-
-
-
-
-
-
-
-	/** Возвращает запись по id */
-	public function getByKey(int $id) {
-		if (!$id) { return [];}
-		$sql = "SELECT :col: FROM :tab: WHERE :key: = {$id}";
-		$data = $this->select($sql);
-		$data = $data->first();
-		return $data;
-	}
-
-
-
-	/** Возвращает все записи */
-	public function getAll() {
-		$sql = "SELECT :col: FROM :tab:";
-		$data = $this->select($sql);
-		return $data;
-	}
-
-
 
 
 
