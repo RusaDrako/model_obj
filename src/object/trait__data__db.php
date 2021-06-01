@@ -17,7 +17,12 @@ trait trait__data__db {
 		$arr_update = $this->data;
 		$arr_update = \array_intersect_key($arr_update, $this->change_data);
 		if ($this->key) {
-			$mark = $this->obj_data->update($arr_update, "{$this->key_name} = {$this->key}");
+			if (is_int($this->key)) {
+				$key_update = "{$this->key_name} = {$this->key}";
+			} else {
+				$key_update = "{$this->key_name} = '{$this->key}'";
+			}
+			$mark = $this->obj_data->update($arr_update, $key_update);
 		} else {
 			$mark = $this->data[$this->key_name] = $this->key = $this->obj_data->insert($arr_update);
 		}

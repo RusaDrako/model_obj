@@ -131,13 +131,14 @@ class object_item_Test extends TestCase {
 
 
 
-	/** Проверяет сохранение существующего элемента */
+	/** Проверяет сохранение существующего элемента (ключ - число) */
 	public function test_save() {
-		$arr_data = $this->arr_data;
-		$arr_data['data_2'] = 'TEST';
 		$this->_test_data_mock->expects($this->exactly(1))
 			->method('update')
-			->with($this->equalTo(['data_2' => 'TEST']))
+			->with(
+				$this->equalTo(['data_2' => 'TEST']),
+				$this->equalTo("id = 99")
+			)
 			->willReturn(true);
 
 		$this->_test_object->setProp('DATA_2', 'TEST');
@@ -148,20 +149,67 @@ class object_item_Test extends TestCase {
 
 
 
-	/** Проверяет сохранение нового элемента */
+	/** Проверяет сохранение существующего элемента (ключ - строка) */
+	public function test_save_2() {
+		$data_arr = ['id' => 'TEST_ID', 'data_2' => 'TEST_34'];
+		$this->_test_object->setDataArrDB($data_arr);
+		$this->_test_data_mock->expects($this->exactly(1))
+			->method('update')
+			->with(
+				$this->equalTo(['data_2' => 'TEST']),
+				$this->equalTo("id = 'TEST_ID'")
+			)
+			->willReturn(true);
+
+		$this->_test_object->setDataArrDB($data_arr);
+		$this->_test_object->setProp('DATA_2', 'TEST');
+		$this->_test_object->setProp('ID', 'TEST_ID');
+		$this->_test_object->save();
+		$this->assertEquals($this->_test_object->getKey(), 'TEST_ID', 'Проверка изменения key');
+		$this->assertEquals($this->_test_object->ID, 'TEST_ID', 'Проверка изменения key');
+	}
+
+
+
+	/** Проверяет сохранение нового элемента (ключ - число) */
 	public function test_save_new() {
 		$arr_data = ['data_2' => 'TEST'];
 		$this->_test_data_mock->expects($this->exactly(1))
 			->method('insert')
-			->with($this->equalTo($arr_data))
+			->with(
+				$this->equalTo($arr_data)
+			)
 			->willReturn(999);
 
 		$class_name = $this->class_name_item;
 		$this->_test_object = new $class_name($this->_test_data_mock);
 		$this->assertNull($this->_test_object->getKey(), 'Ключ до сохранения');
+
 		$this->_test_object->setProp('DATA_2', 'TEST');
 		$this->_test_object->save();
 		$this->assertEquals($this->_test_object->getKey(), 999, 'Ключ после сохранения');
+	}
+
+
+
+	/** Проверяет сохранение нового элемента (ключ - строка) */
+	public function test_save_new_2() {
+		$arr_data = ['id' => 'TEST_ID', 'data_2' => 'TEST'];
+		$this->_test_data_mock->expects($this->exactly(1))
+			->method('insert')
+			->with(
+				$this->equalTo($arr_data)
+			)
+			->willReturn('TEST_ID');
+
+		$class_name = $this->class_name_item;
+		$this->_test_object = new $class_name($this->_test_data_mock);
+		$this->assertNull($this->_test_object->getKey(), 'Ключ до сохранения');
+
+		$this->_test_object->setProp('DATA_2', 'TEST');
+		$this->_test_object->setProp('ID', 'TEST_ID');
+		$this->_test_object->save();
+		$this->assertEquals($this->_test_object->getKey(), 'TEST_ID', 'Ключ после сохранения');
 	}
 
 
