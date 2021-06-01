@@ -37,10 +37,10 @@ abstract class factory {
 	/** Возвращает сформированный объект
 	 * @param string $alias Фабричное имя объекта
 	 */
-	public function getObj($alias) {
+	public function getObj($alias, ...$arg) {
 		if (array_key_exists($alias, $this->obj_class)) { return $this->obj_class[$alias];}
 
-		$class = $this->selection_object($alias);
+		$class = $this->selection_object($alias, ...$arg);
 
 		$this->obj_class[$alias] = $class;
 		return $this->obj_class[$alias];
@@ -51,7 +51,7 @@ abstract class factory {
 	/** Производит формирование объекта
 	 * @param String $alias - псевдоним объекта
 	 */
-	abstract protected function selection_object($alias);
+	abstract protected function selection_object($alias, ...$arg);
 
 
 
