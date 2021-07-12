@@ -214,5 +214,17 @@ class object_item_Test extends TestCase {
 
 
 
+	/** Проверяет установку дополнительного свойства через массив данных */
+	public function test_add_att_data() {
+		$this->assertEquals($this->_test_object->getProp('SUB_DATA_1'), 'sub_test_data_1', 'Данные не записаны');
+		$new_arr = $this->arr_data;
+		$this->arr_data['SUB_DATA_1'] = 'test new data';
+		$this->_test_object->setDataArrDB($this->arr_data);
+
+		$this->assertEquals($this->_test_object->getProp('SUB_DATA_1'), 'test new data', 'Данные не записаны');
+	}
+
+
+
 /**/
 }

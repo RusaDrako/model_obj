@@ -38,20 +38,24 @@ trait trait__data__db {
 	final public function setDataArrDB(array $arr_data) {
 		foreach($arr_data as $k => $v) {
 			# Проверка доступности поля
-			if (!array_key_exists($k, $this->data)) {
-				echo '<pre>';
-				print_r($this->data);
-				throw new \Exception("Вызов неизвестного свойства объекта: " . \get_called_class() . "->{$k}->{$v}");
-			}
-			# Фильтруем (+ находим псевдоним столбца)
-			$v = $this->filter(\array_search($k, $this->alias), $v);
-			# Если это ключевое поле
-			if ($k == $this->key_name) {
-				$this->key = $v;
+			if (array_key_exists($k, $this->data)) {
+				# Фильтруем (+ находим псевдоним столбца)
+				$v = $this->filter(\array_search($k, $this->alias), $v);
+				# Если это ключевое поле
+				if ($k == $this->key_name) {
+					$this->key = $v;
+				}
 				$this->data[$k] = $v;
-			} else {
-				$this->data[$k] = $v;
+				continue;
 			}
+			# Дополнительные свойства
+			if (array_key_exists($k, $this->data_extended)) {
+				$this->data_extended[$k] = $v;
+				continue;
+			}
+			echo '<pre>';
+			print_r($this->data);
+			throw new \Exception("Вызов неизвестного свойства объекта: " . \get_called_class() . "->{$k}->{$v}");
 		}
 	}
 
