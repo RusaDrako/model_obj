@@ -126,7 +126,7 @@ trait trait__data {
 	 * @param string $name Имя свойства
 	 * @param mixed $value Значение свойства
 	 */
-	protected function filter($name, $value) {
+	protected function filter(string $name, $value) {
 		return $value;
 	}
 

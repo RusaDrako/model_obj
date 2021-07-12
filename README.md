@@ -42,7 +42,7 @@ class data extends \RD_Obj_Data {
 	}
 
 	/** Пример получения объекта со списком записей */
-	public function getList(...$args) {
+	public function getList($where) {
 		# ... Дополнительные настройки
 		$sql = "SELECT :col: FROM :tab: WHERE {$where}";
 		$data = $this->select($sql);
@@ -50,9 +50,18 @@ class data extends \RD_Obj_Data {
 	}
 
 	/** Пример получения объекта записи */
-	public function getItem(...$args) {
+	public function getItem($where) {
 		# ... Дополнительные настройки
 		$sql = "SELECT :col: FROM :tab: WHERE id = {$where}";
+		$data = $this->select($sql);
+		$data = $data->first();
+		return $data;
+	}
+
+	/** Пример получения объекта со списком записей с заполнением дополнительного свойства объекта */
+	public function getListAddProp($where) {
+		# ... Дополнительные настройки
+		$sql = "SELECT :col:, 1 AS ADD_NAME FROM :tab: WHERE id = {$where}";
 		$data = $this->select($sql);
 		$data = $data->first();
 		return $data;
@@ -97,7 +106,8 @@ class item extends \RD_Obj_Item {
 		# Ключевое поле объекта
 		$this->set_column_id('id');        # ID записи
 
-		# Столбцы таблицы => gctdljybv
+		# Остновные свойства объекта (переопределяются в процессе работы, сохраняется через save())
+		# Имя поля связанной таблицы => псевдоним (имя свойства)
 		$column = [
 			'id'        => 'ID',        # ID записи
 			'title'     => 'TITLE',     # Заголовок
@@ -108,25 +118,25 @@ class item extends \RD_Obj_Item {
 			$this->set_column_name($k, $v);
 		}
 
-		# Дополнительные свойства объекта (изменяются в процессе работы)
-		$function = [
+		# Дополнительные свойства объекта (переопределяются в процессе работы, не сохраняется через save())
+		$add_prop = [
 			'ADD_NAME'   => null,
 		];
-		foreach ($function as $k => $v) {
+		foreach ($add_prop as $k => $v) {
 			$this->set_add_data($k, $v);
 		}
 
-		# Генерируемые свойства объекта (в процессе работы не могут быть изменены)
+		# Вычисляемые свойства объекта (в процессе работы не могут быть переопределены)
 		$function = [
-			'NAME'   => function() {return $this->TITLE . $this->ID;},
+			'FUNC_NAME'   => function() {return $this->TITLE . $this->ID;},
 		];
 		foreach ($function as $k => $v) {
 			$this->set_gen_data($k, $v);
 		}
 
-		# Свойства-объекты (в процессе работы не могут быть изменены)
+		# Объктные свойства объекта (в процессе работы не могут быть переопределены)
 		$object = [
-			'OBJ_ADDRESS'        => new \test\new_class(),
+			'OBJ_NAME'   => new \test\new_class(),
 		];
 		foreach ($object as $k => $v) {
 			$this->set_sub_obj($k, $v);
@@ -182,7 +192,7 @@ class item extends \RD_Obj_Item {
 | getKeyName() | public | Возвращает имя ключевого поля |
 | getProp(*string* $name) | public | Возвращает значение свойства |
 | setProp(*string* $name, $value) | public | Задаёт значение свойства |
-| filter($name, $value) | protected | Фильтр обновления данных |
+| filter(*string* $name, $value) | protected | Фильтр обновления данных |
 
 
 #### trait__link_obj
@@ -234,4 +244,6 @@ class list_t extends \RD_Obj_List {
 | first() | public | Возвращает первый элемент |
 | last() | public | Возвращает последний элемент |
 | iterator() | public | Осуществляет перебор элементов |
+| get_array() | public | Возвращает массив входящих объектов |
+| addList(*\RusaDrako\model_obj\object_list* $list) | public | Осуществляет добавление элементов из переданного списка |
 | count() | public | Возвращает число элементов |

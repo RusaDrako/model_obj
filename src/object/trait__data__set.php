@@ -72,7 +72,7 @@ trait trait__data__set {
 
 	/** Задаёт имя и значение свойства-функции
 	 * @param string $name Имя свойства
-	 * @param callable $func Значение свойства
+	 * @param callback $func Значение свойства
 	 */
 	final protected function set_gen_data(string $name, $func) {
 		if (!\is_callable($func)) {

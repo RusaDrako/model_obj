@@ -55,7 +55,7 @@ class test_item extends \RD_Obj_Item {
 
 		# Свойства-объекты (в процессе работы не могут быть изменены)
 		$object = [
-			'SUB_OBJ'        => new sub_class(),/**/
+			'SUB_OBJ'   => new sub_class(),
 		];
 		foreach ($object as $k => $v) {
 			$this->set_sub_obj($k, $v);

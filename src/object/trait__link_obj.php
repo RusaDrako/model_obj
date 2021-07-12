@@ -26,6 +26,7 @@ trait trait__link_obj {
 
 
 
+	/** Возвращает присоединённый объект */
 	final public function getLinkObj($name) {
 		return $this->get_link_obj($name);
 	}

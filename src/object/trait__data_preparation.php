@@ -11,7 +11,7 @@ trait trait__data_preparation {
 	/** Подготовка данных к var_dump() и серилизации JSON (JsonSerializable)
 	 * @param array $arr Исходный массив для вывода
 	 */
-	protected function __preparationData($arr) {
+	protected function __preparationData(array $arr) {
 		$arr['key'] = $this->key;
 		foreach ($this->alias as $k => $v) {
 			$arr[$k] = $this->data[$v];
