@@ -48,6 +48,17 @@ class object_list implements \JsonSerializable {
 
 
 
+	/** Добавляет элемент в список из другого списка
+	 * @param object $list Список элементов
+	 */
+	public function addList(\RusaDrako\model_obj\object_list $list) {
+		foreach ($list->iterator() as $k => $v) {
+			$this->add($v);
+		}
+	}
+
+
+
 	/** Возвращает указанный элемент
 	 * @param int $num номер элемента
 	 */

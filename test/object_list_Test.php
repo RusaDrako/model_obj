@@ -146,12 +146,12 @@ class object_list_Test extends TestCase {
 
 
 
-	/** */
+	/** Тестирует метод возврата массива объектов */
 	public function test_get_array() {
 		$result = $this->_test_object->get_array();
 		$this->assertEquals(count($result), $this->_test_object->count(), 'Несовпадение количества элементов');
-		$this->assertEquals($result[0], $this->_test_object->first(), 'Несовпадение объектов: первый');
-		$this->assertEquals($result[count($result)-1], $this->_test_object->last(), 'Несовпадение объектов: последний');
+		$this->assertTrue($result[0] === $this->_test_object->first(), 'Несовпадение объектов: первый');
+		$this->assertTrue($result[count($result)-1] === $this->_test_object->last(), 'Несовпадение объектов: последний');
 		$i = 0;
 		foreach($result as $k => $v) {
 			$i = $i + 1;
@@ -159,7 +159,45 @@ class object_list_Test extends TestCase {
 			$this->assertTrue(\is_a($v, $this->class_name_item_control), 'Класс элемента не найден' . " - Итерация № {$i}");
 			$this->assertEquals($v->getKey(), $i, 'Неверный ключ объекта' . " - Итерация № {$i}");
 		}
+	}
 
+
+
+	/** Тестирует метод объединения списков */
+	public function test_addList() {
+		$this->_test_object = $this->newList(5);
+		$this->assertEquals($this->_test_object->count(), 5, 'Несовпадение количества элементов');
+		$result = $this->_test_object->item(5);
+		$this->assertNull($result, 'Проверка на NULL');
+
+		# Создаём и добавляем второй массив
+		$add_list = $this->newList(5);
+		$this->_test_object->addList($add_list);
+		$this->assertEquals($this->_test_object->count(), 10, 'Несовпадение количества элементов');
+
+		# Проверяем совпадения массивов
+		$this->assertFalse($this->_test_object->item(0) === $add_list->item(4), 'Совпадение объектов');
+		# Проверка совпадения объектов из объединённых списков
+		$this->assertNotNull($this->_test_object->item(5), 'Несовпадение объектов');
+		$this->assertNotNull($add_list->item(0), 'Несовпадение объектов');
+		$this->assertTrue($this->_test_object->item(5) === $add_list->item(0), 'Несовпадение объектов');
+		# Проверка совпадения объектов из объединённых списков
+		$this->assertNotNull($this->_test_object->item(9), 'Несовпадение объектов');
+		$this->assertNotNull($add_list->item(4), 'Несовпадение объектов');
+		$this->assertTrue($this->_test_object->item(9) === $add_list->item(4), 'Несовпадение объектов');
+
+		# Объединяем список сам с собой
+		$this->_test_object->addList($this->_test_object);
+		# Объекты 0 и 10 - совпадают
+		$this->assertNotNull($this->_test_object->item(0), 'Несовпадение объектов');
+		$this->assertNotNull($this->_test_object->item(10), 'Несовпадение объектов');
+		$this->assertTrue($this->_test_object->item(0) === $this->_test_object->item(10), 'Несовпадение объектов');
+		# Объекты 9 и 19 - совпадают
+		$this->assertNotNull($this->_test_object->item(9), 'Несовпадение объектов');
+		$this->assertNotNull($this->_test_object->item(19), 'Несовпадение объектов');
+		$this->assertTrue($this->_test_object->item(9) === $this->_test_object->item(19), 'Несовпадение объектов');
+		# 20 элемент - null
+		$this->assertNull($this->_test_object->item(20), 'Несовпадение объектов');
 	}
 
 
