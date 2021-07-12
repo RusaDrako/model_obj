@@ -112,9 +112,9 @@ trait trait__data {
 			$this->data_extended[$name] = $value;
 			return;
 		}
-		echo '<pre>';
-		print_r($this->alias);
-		print_r($this->data_extended);
+//		echo '<pre>';
+//		print_r($this->alias);
+//		print_r($this->data_extended);
 		throw new \Exception("Вызов неизвестного свойства объекта: " . \get_called_class() . "->{$name}->{$value}");
 	}
 

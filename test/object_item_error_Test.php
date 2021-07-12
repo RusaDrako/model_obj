@@ -25,7 +25,21 @@ class object_item_error_Test extends TestCase {
 
 
 
-	/** Проверяет получение знвчения ключевого столбца */
+	/** Проверяет ошибку при попытке присваить значение не определённому свойству */
+	public function test_error_set_prop() {
+		$result = null;
+		try {
+			$obj = new \test\test_item($this->mock_data());
+			$obj->setProp('ERROR_DATA', 123);
+		} catch (\Exception $e) {
+			$result = $e->getMessage();
+		}
+		$this->assertEquals($result, 'Вызов неизвестного свойства объекта: test\test_item->ERROR_DATA->123', 'Должен выдать ошибку');
+	}
+
+
+
+	/** Проверяет ошибку в формировании callback свойства */
 	public function test_error_prop_function() {
 		$result = null;
 		try {
@@ -38,7 +52,21 @@ class object_item_error_Test extends TestCase {
 
 
 
-	/** Проверяет получение знвчения ключевого столбца */
+	/** Проверяет ошибку при попытке присваить значение callback свойству */
+	public function test_error_set_prop_func() {
+		$result = null;
+		try {
+			$obj = new \test\test_item($this->mock_data());
+			$obj->setProp('SUB_FUNC', 123);
+		} catch (\Exception $e) {
+			$result = $e->getMessage();
+		}
+		$this->assertEquals($result, 'Свойство заблокировано для изменения: test\test_item->SUB_FUNC', 'Должен выдать ошибку');
+	}
+
+
+
+	/** Проверяет ошибку в формировании объектного свойства */
 	public function test_error_prop_object() {
 		$result = null;
 		try {
@@ -47,6 +75,20 @@ class object_item_error_Test extends TestCase {
 			$result = $e->getMessage();
 		}
 		$this->assertEquals($result, 'Значение свойства формируемого методом set_sub_obj должно иметь тип object: test\test_item_error_object->SUB_OBJ', 'Должен выдать ошибку');
+	}
+
+
+
+	/** Проверяет ошибку при попытке присваить значение объектному свойству */
+	public function test_error_set_prop_obj() {
+		$result = null;
+		try {
+			$obj = new \test\test_item($this->mock_data());
+			$obj->setProp('SUB_OBJ', 123);
+		} catch (\Exception $e) {
+			$result = $e->getMessage();
+		}
+		$this->assertEquals($result, 'Свойство заблокировано для изменения: test\test_item->SUB_OBJ', 'Должен выдать ошибку');
 	}
 
 
