@@ -47,9 +47,6 @@ trait trait__data {
 				return $this->data_extended[$name];
 			}
 		}
-		echo '<pre>';
-		print_r($this->alias);
-		print_r($this->$data_extended);
 		throw new \Exception("Вызов неизвестного свойства объекта: " . \get_called_class() . "->{$name}");
 	}
 
@@ -101,7 +98,7 @@ trait trait__data {
 				$this->change_data[$this->alias[$name]] = true;
 			}
 			$this->data[$this->alias[$name]] = $value;
-			return;
+			return $this;
 		}
 		# Если это дополнительное свойство
 		if (\array_key_exists($name, $this->data_extended)) {
@@ -110,11 +107,8 @@ trait trait__data {
 				throw new \Exception("Свойство заблокировано для изменения: " . \get_called_class() . "->{$name}");
 			}
 			$this->data_extended[$name] = $value;
-			return;
+			return $this;
 		}
-//		echo '<pre>';
-//		print_r($this->alias);
-//		print_r($this->data_extended);
 		throw new \Exception("Вызов неизвестного свойства объекта: " . \get_called_class() . "->{$name}->{$value}");
 	}
 

@@ -104,6 +104,22 @@ class object_item_Test extends TestCase {
 
 
 
+	/** Проверяет установку параметров цепочкой */
+	public function test_setProp_chain_execution() {
+		$this->assertEquals($this->_test_object->getProp('DATA_1'), 'data 1 - 99', 'Проверка изменения DATA_1');
+		$this->assertEquals($this->_test_object->getProp('DATA_2'), 'data 2 - 99', 'Проверка изменения DATA_2');
+		# Должен вернуть текущий объект
+		$obj = $this->_test_object->setProp('DATA_1', 'new1')->setProp('DATA_2', 'new2');
+		$this->assertEquals($this->_test_object, $obj, 'Несовпадение объектов');
+
+		$this->assertEquals($this->_test_object->getProp('DATA_1'), 'new1', 'Проверка изменения DATA_1');
+		$this->assertEquals($this->_test_object->getProp('DATA_2'), 'new2', 'Проверка изменения DATA_2');
+	}
+
+
+
+
+
 	/** Проверяет смену ключа */
 	public function test_setProp_exception() {
 		$result = null;

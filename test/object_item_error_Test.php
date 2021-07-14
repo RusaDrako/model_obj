@@ -39,6 +39,34 @@ class object_item_error_Test extends TestCase {
 
 
 
+	/** Проверяет ошибку при попытке получить значение не определённого свойства */
+	public function test_error_get_prop() {
+		$result = null;
+		try {
+			$obj = new \test\test_item($this->mock_data());
+			$obj->getProp('ERROR_DATA');
+		} catch (\Exception $e) {
+			$result = $e->getMessage();
+		}
+		$this->assertEquals($result, 'Вызов неизвестного свойства объекта: test\test_item->ERROR_DATA', 'Должен выдать ошибку');
+	}
+
+
+
+	/** Проверяет ошибку при попытке получить значение не определённого свойства */
+	public function test_error_get_prop_2() {
+		$result = null;
+		try {
+			$obj = new \test\test_item($this->mock_data());
+			$obj->ERROR_DATA_2;
+		} catch (\Exception $e) {
+			$result = $e->getMessage();
+		}
+		$this->assertEquals($result, 'Вызов неизвестного свойства объекта: test\test_item->ERROR_DATA_2', 'Должен выдать ошибку');
+	}
+
+
+
 	/** Проверяет ошибку в формировании callback свойства */
 	public function test_error_prop_function() {
 		$result = null;
