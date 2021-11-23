@@ -83,6 +83,8 @@ class data extends \RD_Obj_Data {
 | replace_column($sql) | protected | Обновляет запроса - замена маркеров |
 | newItem() | public | Создаёт новый объект |
 | getByKey(int $id) | public | Возвращает запись по id |
+| getByKeyOrNew(int $id) | public | Возвращает запись по id или новый элемент |
+| getByKeyArray(arr $arr_id) | public | Возвращает список записей по массиву id |
 | getAll() | public | Возвращает все записи |
 
 ## Настройка объекта RD_Obj_Item

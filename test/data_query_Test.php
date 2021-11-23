@@ -131,5 +131,37 @@ class data_query_Test extends TestCase {
 
 
 
+	/** Проверяет получение данных по ключу */
+	public function test_getByKeyOrNew() {
+		$id = 888;
+		$this->_test_db_mock->expects($this->once())
+			->method('select')
+			->with($this->equalTo("SELECT test_1.id, test_1.data_1, test_1.data_2 FROM test_1 WHERE test_1.id = 888"))
+			->willReturn([['id' => '234']]);
+
+		$result = $this->_test_object->getByKeyOrNew($id);
+		$this->assertIsObject($result, 'Проверка на объект');
+		$this->assertTrue(\is_a($result, $this->class_name_item_control), 'Класс элемента не найден');
+		$this->assertEquals($result->ID, 234, 'Кол-во элементов не совпадает');
+	}
+
+
+
+	/** Проверяет получение данных по ключу */
+	public function test_getByKeyOrNew_new() {
+		$id = 888;
+		$this->_test_db_mock->expects($this->once())
+			->method('select')
+			->with($this->equalTo("SELECT test_1.id, test_1.data_1, test_1.data_2 FROM test_1 WHERE test_1.id = 888"))
+			->willReturn([]);
+
+		$result = $this->_test_object->getByKeyOrNew($id);
+		$this->assertIsObject($result, 'Проверка на объект');
+		$this->assertTrue(\is_a($result, $this->class_name_item_control), 'Класс элемента не найден');
+		$this->assertEquals($result->ID, null, 'Кол-во элементов не совпадает');
+	}
+
+
+
 /**/
 }
