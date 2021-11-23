@@ -13,6 +13,7 @@ $arr_load = [
 	'/data_query.php',
 	'/object_list.php',
 	'/object_item.php',
+	'/template/template.php',
 ];
 
 foreach($arr_load as $k => $v) {
