@@ -202,7 +202,7 @@ class object_list_Test extends TestCase {
 
 
 
-	/** Контроль получения элемента */
+	/** Контроль сохранения элементов */
 	public function test_saveAll() {
 		// Создать подставной объект для test_item,
 		// имитируя только метод save().
