@@ -31,7 +31,7 @@ class object_list_Test extends TestCase {
 	/** Вызывается перед каждым запуском тестового метода */
 	protected function newList($count) {
 		$obj_list = new RD_Obj_List();
-		for($i=0; $i<$count; $i++) {
+		for ($i = 0; $i < $count; $i++) {
 			$j = $i + 1;
 			$obj = $this->stub_item($i);
 			$obj_list->add($obj);
@@ -65,7 +65,7 @@ class object_list_Test extends TestCase {
 		$result = $this->_test_object->count();
 		$this->assertEquals(
 			$result, 10, 'Кол-во элементов не соответствует');
-		for($i=10; $i<20; $i++) {
+		for ($i = 10; $i < 20; $i++) {
 			$this->_test_object->add($this->stub_item($i));
 		}
 		$result = $this->_test_object->count();
@@ -198,6 +198,30 @@ class object_list_Test extends TestCase {
 		$this->assertTrue($this->_test_object->item(9) === $this->_test_object->item(19), 'Несовпадение объектов');
 		# 20 элемент - null
 		$this->assertNull($this->_test_object->item(20), 'Несовпадение объектов');
+	}
+
+
+
+	/** Контроль получения элемента */
+	public function test_saveAll() {
+		// Создать подставной объект для test_item,
+		// имитируя только метод save().
+		$mock_item = $this->getMockBuilder(test\test_item::class)
+				->setConstructorArgs([$this->createMock(RD_Obj_Data::class)])
+				->setMethods(['save'])
+				->getMock();
+
+		// Настроить ожидание для метода save(),
+		// который должен вызваться 2 раза
+		$mock_item->expects($this->exactly(2))
+				->method('save');
+
+		# Добавляем две тестовые заглушки в список
+		$this->_test_object->add($mock_item);
+		$this->_test_object->add($mock_item);
+
+		# Выполняем проверку
+		$result = $this->_test_object->saveAll();
 	}
 
 

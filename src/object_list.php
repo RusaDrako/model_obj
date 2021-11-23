@@ -107,5 +107,14 @@ class object_list implements \JsonSerializable {
 
 
 
+	/** Сохраняет все элементы списка */
+	public function saveAll() {
+		foreach ($this->iterator() as $v) {
+			$v->save();
+		}
+	}
+
+
+
 /**/
 }
