@@ -130,7 +130,7 @@ class item extends \RD_Obj_Item {
 
 	/* * * /
 	public function getAssocietedItem() {
-		\$item = \factory::call()->getObj('object')->getByKey(\$this->OBJECT_ID);
+		\$item = \\factory::call()->getObj('object')->getByKey(\$this->OBJECT_ID);
 		return \$item;
 	}
 
