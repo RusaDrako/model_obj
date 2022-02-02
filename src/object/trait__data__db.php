@@ -53,7 +53,7 @@ trait trait__data__db {
 				$this->data_extended[$k] = $v;
 				continue;
 			}
-			echo '<pre>';
+//			echo '<pre>';
 			print_r($this->data);
 			throw new \Exception("Вызов неизвестного свойства объекта: " . \get_called_class() . "->{$k}->{$v}");
 		}
