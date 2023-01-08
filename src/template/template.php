@@ -25,6 +25,30 @@ class template {
 
 
 	/** */
+	public function page() {
+		$arr_db          = $this->getDbArray();
+		$db_name         = $this->getPost('db_name', $arr_db[0]['Database']);
+		$arr_table       = $this->getTableArray($db_name);
+		$t               = $arr_table[0];
+		$ft              = array_shift($t);
+		$table_name      = $this->getPost('table_name', $ft);
+		$arr_template    = $this->getTemplapeArray();
+		$template_name   = $this->getPost('template_name', array_shift($this->_template));
+
+		require_once(__DIR__ . "/native_tmp_page.php");
+		return $text;
+	}
+
+
+
+	/** */
+	public function getPost($name, $default = null) {
+		return $_POST[$name] ?? $default;
+	}
+
+
+
+	/** */
 	public function getTemplapeArray() {
 		return $this->_template;
 	}
@@ -39,8 +63,8 @@ class template {
 
 
 	/** */
-	public function getTableArray() {
-		return $this->_obj_data->getTableArray();
+	public function getTableArray($db) {
+		return $this->_obj_data->getTableArray($db);
 	}
 
 

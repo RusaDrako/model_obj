@@ -29,8 +29,8 @@ class data /*extends \RusaDrako\model_obj\data*/ {
 
 
 	/** Возвращает массив таблиц в БД */
-	public function getTableArray() {
-		$sql = "SHOW FULL TABLES;";
+	public function getTableArray($db) {
+		$sql = "SHOW TABLES FROM {$db};";
 		# Возвращаем результат
 		return $this->obj_db->select($sql);
 	}

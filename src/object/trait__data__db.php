@@ -13,7 +13,7 @@ trait trait__data__db {
 
 	/** Сохраняет элемент */
 	public function save() {
-		if (!$this->change_data) {	return null;}
+		if (!$this->change_data) {return null;}
 		$arr_update = $this->data;
 		$arr_update = \array_intersect_key($arr_update, $this->change_data);
 		if ($this->key) {
