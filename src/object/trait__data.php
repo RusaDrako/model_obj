@@ -116,6 +116,19 @@ trait trait__data {
 
 
 
+	/** Задаёт значения свойств
+	 * @param array $data Массив свойств
+	 */
+	final public function setProps(array $data) {
+		foreach ($data as $k => $v) {
+			$this->setProp($k, $v);
+		}
+	}
+
+
+
+
+
 	/** Фильтр обновления данных
 	 * @param string $name Имя свойства
 	 * @param mixed $value Значение свойства
