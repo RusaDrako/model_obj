@@ -1,6 +1,10 @@
 ﻿# RusaDrako\\model_obj
 Модели объектов
 
+[![Latest Stable Version](https://poser.pugx.org/rusadrako/model_obj/v/stable)](https://packagist.org/packages/rusadrako/model_obj)
+[![Total Downloads](https://poser.pugx.org/rusadrako/model_obj/downloads)](https://packagist.org/packages/rusadrako/model_obj/stats)
+[![License](https://poser.pugx.org/rusadrako/model_obj/license)](./LICENSE)
+
 ## Подключение
 
 Для подключения библиотеки к проекту подключите файл `src/autoload.php`
