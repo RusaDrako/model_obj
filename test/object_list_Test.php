@@ -10,7 +10,7 @@ require_once(__DIR__ . '/mock/test_item.php');
 
 
 /**
- * @author Петухов Леонид <l.petuhov@okonti.ru>
+ * @author Петухов Леонид <rusadrako@yandex.ru>
  */
 class object_list_Test extends TestCase {
 	/** */

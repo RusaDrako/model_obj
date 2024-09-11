@@ -12,7 +12,7 @@ require_once(__DIR__ . '/mock/test_data_query.php');
 
 
 /**
- * @author Петухов Леонид <l.petuhov@okonti.ru>
+ * @author Петухов Леонид <rusadrako@yandex.ru>
  */
 class data_query_Test extends TestCase {
 	/** */

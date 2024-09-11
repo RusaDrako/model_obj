@@ -11,7 +11,7 @@ require_once(__DIR__ . '/mock/test_item_error_object.php');
 
 
 /**
- * @author Петухов Леонид <l.petuhov@okonti.ru>
+ * @author Петухов Леонид <rusadrako@yandex.ru>
  */
 class object_item_error_Test extends TestCase {
 
