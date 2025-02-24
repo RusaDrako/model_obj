@@ -37,7 +37,7 @@ class object_item implements \JsonSerializable {
 
 
 	/** Подготовка данных к серилизации JSON (JsonSerializable) */
-	public function jsonSerialize() {
+	public function jsonSerialize() : mixed {
 		$arr = $this->__preparationData([]);
 		return $arr;
 	}

@@ -22,7 +22,7 @@ trait trait__data {
 	# Блокировка дополнительных параметров
 	protected $data_extended_lock   = [];
 	#
-	protected $change_data          = false;
+	protected $change_data          = [];
 
 
 
